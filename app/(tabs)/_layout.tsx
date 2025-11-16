@@ -28,9 +28,9 @@ export default function TabLayout() {
         name='explore'
         options={{
           tabBarIcon: ({ color }) => (
-            <IconSymbol color={color} name='paperplane.fill' size={28} />
+            <IconSymbol color={color} name='camera.fill' size={28} />
           ),
-          title: 'Explore'
+          title: 'Scanner'
         }}
       />
     </Tabs>

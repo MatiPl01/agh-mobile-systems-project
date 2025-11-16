@@ -20,7 +20,9 @@ const MAPPING = {
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
   'house.fill': 'home',
-  'paperplane.fill': 'send'
+  'paperplane.fill': 'send',
+  'camera.fill': 'camera-alt',
+  'arrow.triangle.2.circlepath.camera.fill': 'flip-camera-android'
 } as IconMapping;
 
 /**

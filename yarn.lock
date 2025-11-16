@@ -5396,6 +5396,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-camera@npm:~17.0.9":
+  version: 17.0.9
+  resolution: "expo-camera@npm:17.0.9"
+  dependencies:
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    expo: "*"
+    react: "*"
+    react-native: "*"
+    react-native-web: "*"
+  peerDependenciesMeta:
+    react-native-web:
+      optional: true
+  checksum: 10c0/29938feb3f28b509d9018521f3177622b20f4852b6a4cdd489485c3c631a7ab6a417c2d3d994c5caef5afec6d405cd68dbd91be42b9f2480bb24c90878bdcf47
+  languageName: node
+  linkType: hard
+
 "expo-constants@npm:~18.0.10, expo-constants@npm:~18.0.8, expo-constants@npm:~18.0.9":
   version: 18.0.10
   resolution: "expo-constants@npm:18.0.10"
@@ -9856,6 +9873,7 @@ __metadata:
     eslint: "npm:^9.25.0"
     eslint-config-expo: "npm:~10.0.0"
     expo: "npm:~54.0.23"
+    expo-camera: "npm:~17.0.9"
     expo-constants: "npm:~18.0.10"
     expo-font: "npm:~14.0.9"
     expo-haptics: "npm:~15.0.7"
