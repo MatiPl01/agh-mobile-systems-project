@@ -1,19 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
-import {
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  Alert,
-  Platform
-} from 'react-native';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
-import { Image } from 'expo-image';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { Image } from 'expo-image';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import { useEffect, useRef, useState } from 'react';
+import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function ScannerScreen() {
   const [facing, setFacing] = useState<CameraType>('back');
@@ -29,6 +24,13 @@ export default function ScannerScreen() {
     }
   }, [permission, requestPermission]);
 
+  useEffect(() => {
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    return () => {
+      ScreenOrientation.unlockAsync();
+    };
+  }, []);
+
   const takePicture = async () => {
     if (!cameraRef.current) {
       Alert.alert('Error', 'Camera not ready');
@@ -39,7 +41,8 @@ export default function ScannerScreen() {
       const photo = await cameraRef.current.takePictureAsync({
         quality: 0.8,
         base64: false,
-        skipProcessing: false
+        skipProcessing: false,
+        exif: false
       });
 
       if (photo?.uri) {
