@@ -54,13 +54,15 @@
     "android": "expo start --android",
     "circular-dependency-check": "yarn madge --extensions js,jsx,ts,tsx --circular .",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "husky:install": "./scripts/husky.sh",
     "ios": "expo start --ios",
     "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
     "postinstall": "yarn husky:install",
     "reset-project": "node ./scripts/reset-project.js",
     "start": "expo start",
-    "type:check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "web": "expo start --web"
   }
 }
