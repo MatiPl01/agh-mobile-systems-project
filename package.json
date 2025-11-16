@@ -1,17 +1,6 @@
 {
   "name": "riichi-mahjong",
-  "main": "expo-router/entry",
   "version": "1.0.0",
-  "scripts": {
-    "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "lint": "expo lint",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "type:check": "tsc --noEmit"
-  },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/bottom-tabs": "^7.4.0",
@@ -43,9 +32,35 @@
     "@types/react": "~19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "lint-staged": "16.2.6",
+    "madge": "8.0.0",
     "prettier": "3.6.2",
+    "syncpack": "^12.3.3",
     "typescript": "~5.9.2"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write . --ignore-unknown",
+      "eslint --fix ."
+    ],
+    "package.json": [
+      "syncpack format"
+    ]
+  },
+  "main": "expo-router/entry",
+  "packageManager": "yarn@4.11.0",
   "private": true,
-  "packageManager": "yarn@4.11.0"
+  "scripts": {
+    "android": "expo start --android",
+    "circular-dependency-check": "yarn madge --extensions js,jsx,ts,tsx --circular .",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "husky:install": "./scripts/husky.sh",
+    "ios": "expo start --ios",
+    "lint": "expo lint",
+    "postinstall": "yarn husky:install",
+    "reset-project": "node ./scripts/reset-project.js",
+    "start": "expo start",
+    "type:check": "tsc --noEmit",
+    "web": "expo start --web"
+  }
 }
