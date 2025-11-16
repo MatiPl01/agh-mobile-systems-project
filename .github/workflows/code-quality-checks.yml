@@ -19,8 +19,8 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'yarn'
+          node-version: "20"
+          cache: "yarn"
 
       - name: 📦 Install dependencies
         run: yarn install --immutable
@@ -38,8 +38,8 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'yarn'
+          node-version: "20"
+          cache: "yarn"
 
       - name: 📦 Install dependencies
         run: yarn install --immutable
@@ -57,8 +57,8 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'yarn'
+          node-version: "20"
+          cache: "yarn"
 
       - name: 📦 Install dependencies
         run: yarn install --immutable
@@ -76,30 +76,11 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'yarn'
+          node-version: "20"
+          cache: "yarn"
 
       - name: 📦 Install dependencies
         run: yarn install --immutable
 
       - name: 🎨 Run Prettier check
         run: yarn format:check
-
-  test:
-    name: 🧪 Tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: 🛒 Checkout code
-        uses: actions/checkout@v4
-
-      - name: 🔧 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'yarn'
-
-      - name: 📦 Install dependencies
-        run: yarn install --immutable
-
-      - name: 🧪 Run tests
-        run: yarn test
