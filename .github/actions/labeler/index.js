@@ -83,7 +83,9 @@ async function applyLabelChanges(octokit, labelsToAdd, labelsToRemove) {
   // Remove outdated labels first
   if (labelsToRemove.length > 0) {
     console.log(
-      `\n🗑️ Removing ${labelsToRemove.length} outdated label(s): [${labelsToRemove.join(', ')}]`
+      `\n🗑️ Removing ${
+        labelsToRemove.length
+      } outdated label(s): [${labelsToRemove.join(', ')}]`
     );
     await removeLabels(octokit, labelsToRemove);
   }
@@ -91,7 +93,9 @@ async function applyLabelChanges(octokit, labelsToAdd, labelsToRemove) {
   // Add new labels
   if (labelsToAdd.length > 0) {
     console.log(
-      `\n➕ Adding ${labelsToAdd.length} new label(s): [${labelsToAdd.join(', ')}]`
+      `\n➕ Adding ${labelsToAdd.length} new label(s): [${labelsToAdd.join(
+        ', '
+      )}]`
     );
     await addLabels(octokit, labelsToAdd);
   }

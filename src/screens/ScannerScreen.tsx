@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 export default function ScannerScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Scanner</ThemedText>
+      <ThemedText type='title'>Scanner</ThemedText>
       <Scanner />
     </ThemedView>
   );
@@ -17,6 +17,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-  },
+    alignItems: 'center'
+  }
 });

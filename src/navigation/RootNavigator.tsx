@@ -16,18 +16,17 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName="Home"
+        initialRouteName='Home'
         screenOptions={{
-          headerShown: true,
-        }}
-      >
+          headerShown: true
+        }}>
         <Tab.Screen
-          name="Home"
+          name='Home'
           component={HomeScreen}
           options={{ title: 'Home' }}
         />
         <Tab.Screen
-          name="ScannerScreen"
+          name='ScannerScreen'
           component={ScannerScreen}
           options={{ title: 'Scanner' }}
         />

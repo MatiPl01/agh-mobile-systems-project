@@ -71,7 +71,11 @@ function logCurrentState(currentLabels, changedFiles) {
     console.log(`   ${changedFiles.join(', ')}`);
   } else {
     console.log(
-      `   ${changedFiles.slice(0, CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY).join(', ')} and ${changedFiles.length - CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY} more`
+      `   ${changedFiles
+        .slice(0, CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY)
+        .join(', ')} and ${
+        changedFiles.length - CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY
+      } more`
     );
   }
 }

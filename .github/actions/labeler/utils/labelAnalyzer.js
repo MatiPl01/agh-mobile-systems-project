@@ -88,7 +88,9 @@ function findMatchingFileLabels(changedFiles, fileMappings) {
     matchingLabels.push({
       label: label,
       source: 'files',
-      reason: `file patterns [${info.allPatterns.join(', ')}] match [${Array.from(info.allMatches).join(', ')}]`
+      reason: `file patterns [${info.allPatterns.join(
+        ', '
+      )}] match [${Array.from(info.allMatches).join(', ')}]`
     });
   }
 
@@ -115,7 +117,11 @@ function formatReason(source, reason) {
       const fileList =
         fileCount <= CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY
           ? files.join(', ')
-          : `${files.slice(0, CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY).join(', ')} and ${fileCount - CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY} more`;
+          : `${files
+              .slice(0, CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY)
+              .join(', ')} and ${
+              fileCount - CONSTANTS.DISPLAY.MAX_FILES_IN_SUMMARY
+            } more`;
       return `files (${patterns}): ${fileList}`;
     }
     return reason;
