@@ -1,7 +1,0 @@
-.gitignore
-yarn.lock
-.yarn
-.vscode
-android
-ios
-node_modules
