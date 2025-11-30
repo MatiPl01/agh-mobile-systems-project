@@ -8,10 +8,12 @@
     "@react-navigation/native-stack": "^7.6.3",
     "react": "19.1.1",
     "react-native": "0.82.1",
+    "react-native-reanimated": "^4.1.5",
     "react-native-safe-area-context": "^5.5.2",
     "react-native-screens": "^4.18.0",
     "react-native-vision-camera": "^4.7.3",
     "react-native-vision-camera-image-labeler": "^2.2.0",
+    "react-native-worklets": "^0.6.1",
     "react-native-worklets-core": "patch:react-native-worklets-core@npm%3A1.6.2#~/.yarn/patches/react-native-worklets-core-npm-1.6.2-2a74f8236d.patch"
   },
   "devDependencies": {
@@ -62,6 +64,7 @@
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "husky:install": "./scripts/husky.sh",
     "ios": "react-native run-ios",
+    "pod": "cd ios && bundle install && bundle exec pod install && cd ..",
     "lint": "eslint .",
     "postinstall": "yarn husky:install",
     "start": "react-native start",
