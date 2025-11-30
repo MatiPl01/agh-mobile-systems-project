@@ -1,18 +1,16 @@
 import { useEffect } from 'react';
-import { StyleSheet, Text, useWindowDimensions } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import {
   Camera,
   useCameraDevice,
   useCameraPermission,
-  useFrameProcessor,
+  useFrameProcessor
 } from 'react-native-vision-camera';
 import { useImageLabeler } from 'react-native-vision-camera-image-labeler';
 
 export default function Scanner() {
   const device = useCameraDevice('back');
   const { hasPermission, requestPermission } = useCameraPermission();
-
-  const windowDimensions = useWindowDimensions();
 
   useEffect(() => {
     if (!hasPermission) requestPermission();

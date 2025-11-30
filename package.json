@@ -1,14 +1,6 @@
 {
   "name": "RiichiMahjongCalculator",
   "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
-  },
   "dependencies": {
     "@react-native/new-app-screen": "0.82.1",
     "@react-navigation/bottom-tabs": "^7.8.5",
@@ -42,12 +34,38 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "lint-staged": "16.2.6",
+    "madge": "8.0.0",
     "prettier": "2.8.8",
     "react-test-renderer": "19.1.1",
+    "syncpack": "^12.3.3",
     "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=20"
   },
-  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write . --ignore-unknown",
+      "eslint --fix ."
+    ],
+    "package.json": [
+      "syncpack format"
+    ]
+  },
+  "packageManager": "yarn@4.12.0",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "circular-dependency-check": "yarn madge --extensions js,jsx,ts,tsx --circular .",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "husky:install": "./scripts/husky.sh",
+    "ios": "react-native run-ios",
+    "lint": "eslint .",
+    "postinstall": "yarn husky:install",
+    "start": "react-native start",
+    "test": "jest",
+    "typecheck": "tsc --noEmit"
+  }
 }

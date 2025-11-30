@@ -6,17 +6,17 @@ module.exports = {
     [
       'react-native-worklets-core/plugin',
       {
-        globals: ['__detectObjects'],
-      },
+        globals: ['__detectObjects']
+      }
     ],
     [
       'module-resolver',
       {
         root: ['./src'],
         alias: {
-          '@': './src',
-        },
-      },
-    ],
-  ],
+          '@': './src'
+        }
+      }
+    ]
+  ]
 };
