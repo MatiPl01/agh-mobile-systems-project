@@ -1,25 +1,31 @@
-import Scanner from '@/components/Scanner';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
-export default function ScannerScreen() {
+export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <ThemedView style={styles.container}>
       <ThemedText type='title' style={styles.title}>
-        Scan Board
+        Manual Input
       </ThemedText>
-      <ThemedView style={styles.scannerContainer}>
-        <Scanner />
+      <ThemedText style={styles.subtitle}>
+        Select tiles manually to build your hand
+      </ThemedText>
+
+      <ThemedView style={styles.placeholder}>
+        <ThemedText style={styles.placeholderText}>
+          Tile selection interface will go here
+        </ThemedText>
       </ThemedView>
+
       <Pressable
         style={({ pressed }) => [
           styles.button,
@@ -45,11 +51,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10
   },
-  scannerContainer: {
+  subtitle: {
+    textAlign: 'center',
+    fontSize: 16,
+    opacity: 0.7,
+    marginBottom: 10
+  },
+  placeholder: {
     flex: 1,
-    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#999',
     borderRadius: 12,
-    overflow: 'hidden'
+    marginVertical: 20
+  },
+  placeholderText: {
+    fontSize: 16,
+    opacity: 0.5,
+    textAlign: 'center'
   },
   button: {
     width: '100%',

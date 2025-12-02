@@ -1,4 +1,3 @@
-import Scanner from '@/components/Scanner';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useNavigation } from '@react-navigation/native';
@@ -9,27 +8,34 @@ import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigat
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
-export default function ScannerScreen() {
+export default function EditHandScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <ThemedView style={styles.container}>
       <ThemedText type='title' style={styles.title}>
-        Scan Board
+        Edit Hand
       </ThemedText>
-      <ThemedView style={styles.scannerContainer}>
-        <Scanner />
+      <ThemedText style={styles.subtitle}>
+        Adjust tiles that were incorrectly identified
+      </ThemedText>
+
+      <ThemedView style={styles.placeholder}>
+        <ThemedText style={styles.placeholderText}>
+          Tile editor interface will go here
+        </ThemedText>
+        <ThemedText style={styles.placeholderSubtext}>
+          Add, remove, or modify tiles
+        </ThemedText>
       </ThemedView>
+
       <Pressable
         style={({ pressed }) => [
           styles.button,
           pressed && styles.buttonPressed
         ]}
-        onPress={() => {
-          // Always push a fresh ResultsScreen
-          navigation.navigate('Results');
-        }}>
-        <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>
+        onPress={() => navigation.goBack()}>
+        <ThemedText style={styles.buttonText}>Save & Recalculate</ThemedText>
       </Pressable>
     </ThemedView>
   );
@@ -45,11 +51,34 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10
   },
-  scannerContainer: {
+  subtitle: {
+    textAlign: 'center',
+    fontSize: 16,
+    opacity: 0.7,
+    marginBottom: 10
+  },
+  placeholder: {
     flex: 1,
-    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: '#999',
     borderRadius: 12,
-    overflow: 'hidden'
+    padding: 40,
+    marginVertical: 20
+  },
+  placeholderText: {
+    fontSize: 18,
+    fontWeight: '600',
+    opacity: 0.7,
+    textAlign: 'center',
+    marginBottom: 10
+  },
+  placeholderSubtext: {
+    fontSize: 14,
+    opacity: 0.5,
+    textAlign: 'center'
   },
   button: {
     width: '100%',
@@ -75,3 +104,4 @@ const styles = StyleSheet.create({
     borderRadius: 12
   }
 });
+
