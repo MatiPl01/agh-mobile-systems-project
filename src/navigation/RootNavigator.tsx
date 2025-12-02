@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { NavigationContainer } from '@react-navigation/native';
 
-import HomeScreen from '@/screens/HomeScreen';
-import ScannerScreen from '@/screens/ScannerScreen';
+import CalculateStackNavigator from './CalculateStackNavigator';
+import HistoryStackNavigator from './HistoryStackNavigator';
+import YakuStackNavigator from './YakuStackNavigator';
 
 export type RootTabParamList = {
-  Home: undefined;
-  ScannerScreen: undefined;
+  Calculate: undefined;
+  Yaku: undefined;
+  History: undefined;
 };
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
@@ -16,19 +17,24 @@ export default function RootNavigator() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName='Home'
+        initialRouteName='Calculate'
         screenOptions={{
-          headerShown: true
+          headerShown: false
         }}>
         <Tab.Screen
-          name='Home'
-          component={HomeScreen}
-          options={{ title: 'Home' }}
+          name='Calculate'
+          component={CalculateStackNavigator}
+          options={{ title: 'Calculate' }}
         />
         <Tab.Screen
-          name='ScannerScreen'
-          component={ScannerScreen}
-          options={{ title: 'Scanner' }}
+          name='Yaku'
+          component={YakuStackNavigator}
+          options={{ title: 'Yaku' }}
+        />
+        <Tab.Screen
+          name='History'
+          component={HistoryStackNavigator}
+          options={{ title: 'History' }}
         />
       </Tab.Navigator>
     </NavigationContainer>

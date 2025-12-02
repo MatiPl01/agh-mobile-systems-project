@@ -1,4 +1,3 @@
-import Scanner from '@/components/Scanner';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
@@ -9,26 +8,34 @@ import { Pressable, StyleSheet } from 'react-native';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
-export default function ScannerScreen() {
+export default function CalculateScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
     <ThemedView style={styles.container}>
       <ThemedText type='title' style={styles.title}>
-        Scan Board
+        Calculate Points
       </ThemedText>
-      <ThemedView style={styles.scannerContainer}>
-        <Scanner />
-      </ThemedView>
+      <ThemedText style={styles.subtitle}>
+        Choose how you want to input your hand
+      </ThemedText>
+
       <Pressable
         style={({ pressed }) => [
           styles.button,
           pressed && styles.buttonPressed
         ]}
-        onPress={() => {
-          navigation.navigate('Results');
-        }}>
-        <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>
+        onPress={() => navigation.navigate('Scanner')}>
+        <ThemedText style={styles.buttonText}>Scan Board</ThemedText>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [
+          styles.button,
+          pressed && styles.buttonPressed
+        ]}
+        onPress={() => navigation.navigate('Calculator')}>
+        <ThemedText style={styles.buttonText}>Manual Input</ThemedText>
       </Pressable>
     </ThemedView>
   );
@@ -37,21 +44,24 @@ export default function ScannerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 20,
-    gap: 20
+    gap: 30
   },
   title: {
     textAlign: 'center',
     marginBottom: 10
   },
-  scannerContainer: {
-    flex: 1,
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden'
+  subtitle: {
+    textAlign: 'center',
+    fontSize: 16,
+    opacity: 0.7,
+    marginBottom: 20
   },
   button: {
     width: '100%',
+    maxWidth: 300,
     borderRadius: 12,
     overflow: 'hidden',
     shadowColor: '#000',
