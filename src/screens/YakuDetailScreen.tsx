@@ -1,10 +1,11 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { useRoute } from '@react-navigation/native';
-import type { RouteProp } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
 import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
+import type { RouteProp } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import React from 'react';
+import { ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 type YakuDetailRouteProp = RouteProp<YakuStackParamList, 'YakuDetail'>;
 

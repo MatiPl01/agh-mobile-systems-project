@@ -1,10 +1,11 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Pressable, ScrollView, StyleSheet } from 'react-native';
-import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
+import { Pressable, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<YakuStackParamList>;
 
