@@ -1,33 +1,27 @@
-import { Text, type TextProps } from 'react-native';
+import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 
-export type ThemedTextProps = TextProps & {
+export type TextProps = RNTextProps & {
   variant?: 'default' | 'defaultSemiBold' | 'link' | 'subtitle' | 'title';
   type?: 'default' | 'defaultSemiBold' | 'link' | 'subtitle' | 'title';
   color?: keyof typeof import('@/theme/colors').colors.light;
 };
 
-export function ThemedText({
-  variant,
-  type,
-  color,
-  style,
-  ...rest
-}: ThemedTextProps) {
+export function Text({ variant, type, color, style, ...rest }: TextProps) {
   const { theme } = useUnistyles();
   const textVariant = variant || type || 'default';
   const textColor = color ? theme.colors[color] : theme.colors.text;
   const styles = stylesheet;
 
   return (
-    <Text
+    <RNText
       style={[styles[textVariant], { color: textColor }, style]}
       {...rest}
     />
   );
 }
 
-const stylesheet = StyleSheet.create((theme) => ({
+const stylesheet = StyleSheet.create(theme => ({
   default: {
     fontSize: theme.typography.sizes.base,
     lineHeight: theme.typography.lineHeights.base,
@@ -58,4 +52,3 @@ const stylesheet = StyleSheet.create((theme) => ({
     fontWeight: 'bold'
   }
 }));
-

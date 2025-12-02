@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -13,19 +12,19 @@ export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Manual Input
-      </ThemedText>
-      <ThemedText style={styles.subtitle}>
+      </Text>
+      <Text style={styles.subtitle}>
         Select tiles manually to build your hand
-      </ThemedText>
+      </Text>
 
-      <ThemedView style={styles.placeholder}>
-        <ThemedText style={styles.placeholderText}>
+      <View style={styles.placeholder}>
+        <Text style={styles.placeholderText}>
           Tile selection interface will go here
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       <Pressable
         style={({ pressed }) => [
@@ -35,9 +34,9 @@ export default function CalculatorScreen() {
         onPress={() => {
           navigation.navigate('Results');
         }}>
-        <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>
+        <Text style={styles.buttonText}>Calculate Points</Text>
       </Pressable>
-    </ThemedView>
+    </View>
   );
 }
 

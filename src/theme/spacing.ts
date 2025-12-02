@@ -20,4 +20,3 @@ export const borderRadius = {
   '2xl': 24,
   full: 9999
 } as const;
-

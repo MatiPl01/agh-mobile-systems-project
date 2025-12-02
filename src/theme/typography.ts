@@ -37,4 +37,3 @@ export const typography = {
     '3xl': 40
   }
 } as const;
-

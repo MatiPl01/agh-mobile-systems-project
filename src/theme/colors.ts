@@ -32,4 +32,3 @@ export const colors = {
     secondary: '#8E8E93'
   }
 } as const;
-

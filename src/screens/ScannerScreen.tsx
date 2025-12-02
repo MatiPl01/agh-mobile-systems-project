@@ -1,6 +1,4 @@
-import Scanner from '@/components/Scanner';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Scanner, Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -14,13 +12,13 @@ export default function ScannerScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Scan Board
-      </ThemedText>
-      <ThemedView style={styles.scannerContainer}>
+      </Text>
+      <View style={styles.scannerContainer}>
         <Scanner />
-      </ThemedView>
+      </View>
       <Pressable
         style={({ pressed }) => [
           styles.button,
@@ -29,9 +27,9 @@ export default function ScannerScreen() {
         onPress={() => {
           navigation.navigate('Results');
         }}>
-        <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>
+        <Text style={styles.buttonText}>Calculate Points</Text>
       </Pressable>
-    </ThemedView>
+    </View>
   );
 }
 

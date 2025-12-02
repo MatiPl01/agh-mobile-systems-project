@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import type { HistoryStackParamList } from '@/navigation/HistoryStackNavigator';
 import type { RouteProp } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
@@ -14,23 +13,23 @@ export default function HandDetailScreen() {
   const { handId } = route.params;
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <ThemedText type='title' style={styles.title}>
+        <Text type='title' style={styles.title}>
           Hand Details
-        </ThemedText>
-        <ThemedText style={styles.handId}>ID: {handId}</ThemedText>
+        </Text>
+        <Text style={styles.handId}>ID: {handId}</Text>
 
-        <ThemedView style={styles.placeholder}>
-          <ThemedText style={styles.placeholderText}>
+        <View style={styles.placeholder}>
+          <Text style={styles.placeholderText}>
             Hand details will be displayed here
-          </ThemedText>
-          <ThemedText style={styles.placeholderSubtext}>
+          </Text>
+          <Text style={styles.placeholderSubtext}>
             Tiles, yaku, points, and calculation breakdown
-          </ThemedText>
-        </ThemedView>
+          </Text>
+        </View>
       </ScrollView>
-    </ThemedView>
+    </View>
   );
 }
 

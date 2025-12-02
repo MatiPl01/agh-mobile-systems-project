@@ -19,4 +19,3 @@ StyleSheet.configure({
     adaptiveThemes: true
   }
 });
-

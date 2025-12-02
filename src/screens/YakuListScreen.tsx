@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -22,13 +21,11 @@ export default function YakuListScreen() {
   ];
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Yaku Reference
-      </ThemedText>
-      <ThemedText style={styles.subtitle}>
-        Tap on a yaku to see details
-      </ThemedText>
+      </Text>
+      <Text style={styles.subtitle}>Tap on a yaku to see details</Text>
 
       <ScrollView
         style={styles.list}
@@ -43,17 +40,17 @@ export default function YakuListScreen() {
             onPress={() =>
               navigation.navigate('YakuDetail', { yakuId: yaku.id })
             }>
-            <ThemedText style={styles.yakuName}>{yaku.name}</ThemedText>
-            <ThemedText style={styles.yakuHan}>{yaku.han} han</ThemedText>
+            <Text style={styles.yakuName}>{yaku.name}</Text>
+            <Text style={styles.yakuHan}>{yaku.han} han</Text>
           </Pressable>
         ))}
-        <ThemedView style={styles.placeholderNote}>
-          <ThemedText style={styles.placeholderText}>
+        <View style={styles.placeholderNote}>
+          <Text style={styles.placeholderText}>
             Full yaku list will be implemented here
-          </ThemedText>
-        </ThemedView>
+          </Text>
+        </View>
       </ScrollView>
-    </ThemedView>
+    </View>
   );
 }
 

@@ -1,5 +1,5 @@
 import { colors } from './colors';
-import { spacing, borderRadius } from './spacing';
+import { borderRadius, spacing } from './spacing';
 import { typography } from './typography';
 
 export const lightTheme = {
@@ -17,4 +17,3 @@ export const darkTheme = {
 };
 
 export type AppTheme = typeof lightTheme | typeof darkTheme;
-

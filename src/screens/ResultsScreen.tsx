@@ -1,5 +1,4 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -22,19 +21,19 @@ export default function ResultsScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Results
-      </ThemedText>
+      </Text>
 
-      <ThemedView style={styles.placeholder}>
-        <ThemedText style={styles.placeholderText}>
+      <View style={styles.placeholder}>
+        <Text style={styles.placeholderText}>
           Point calculation results will be displayed here
-        </ThemedText>
-        <ThemedText style={styles.placeholderSubtext}>
+        </Text>
+        <Text style={styles.placeholderSubtext}>
           Han, Fu, Yaku, and payment breakdown
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       <Pressable
         style={({ pressed }) => [
@@ -43,7 +42,7 @@ export default function ResultsScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => navigation.navigate('EditHand')}>
-        <ThemedText style={styles.secondaryButtonText}>Edit Hand</ThemedText>
+        <Text style={styles.secondaryButtonText}>Edit Hand</Text>
       </Pressable>
 
       <Pressable
@@ -52,9 +51,9 @@ export default function ResultsScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={handleNewCalculation}>
-        <ThemedText style={styles.buttonText}>New Calculation</ThemedText>
+        <Text style={styles.buttonText}>New Calculation</Text>
       </Pressable>
-    </ThemedView>
+    </View>
   );
 }
 
