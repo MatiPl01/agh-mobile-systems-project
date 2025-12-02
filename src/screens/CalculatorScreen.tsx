@@ -32,7 +32,6 @@ export default function CalculatorScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => {
-          // Always push a fresh ResultsScreen
           navigation.navigate('Results');
         }}>
         <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>

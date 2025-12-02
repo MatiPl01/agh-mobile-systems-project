@@ -1,11 +1,11 @@
 import Scanner from '@/components/Scanner';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
@@ -26,7 +26,6 @@ export default function ScannerScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => {
-          // Always push a fresh ResultsScreen
           navigation.navigate('Results');
         }}>
         <ThemedText style={styles.buttonText}>Calculate Points</ThemedText>

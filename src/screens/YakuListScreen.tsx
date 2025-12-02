@@ -29,15 +29,19 @@ export default function YakuListScreen() {
         Tap on a yaku to see details
       </ThemedText>
 
-      <ScrollView style={styles.list} contentContainerStyle={styles.listContent}>
-        {placeholderYaku.map((yaku) => (
+      <ScrollView
+        style={styles.list}
+        contentContainerStyle={styles.listContent}>
+        {placeholderYaku.map(yaku => (
           <Pressable
             key={yaku.id}
             style={({ pressed }) => [
               styles.yakuItem,
               pressed && styles.yakuItemPressed
             ]}
-            onPress={() => navigation.navigate('YakuDetail', { yakuId: yaku.id })}>
+            onPress={() =>
+              navigation.navigate('YakuDetail', { yakuId: yaku.id })
+            }>
             <ThemedText style={styles.yakuName}>{yaku.name}</ThemedText>
             <ThemedText style={styles.yakuHan}>{yaku.han} han</ThemedText>
           </Pressable>
@@ -106,4 +110,3 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
-

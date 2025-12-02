@@ -12,9 +12,7 @@ export default function HistoryScreen() {
 
       <ThemedView style={styles.placeholder}>
         <ThemedText style={styles.placeholderEmoji}>📜</ThemedText>
-        <ThemedText style={styles.placeholderTitle}>
-          Coming Soon
-        </ThemedText>
+        <ThemedText style={styles.placeholderTitle}>Coming Soon</ThemedText>
         <ThemedText style={styles.placeholderText}>
           Your calculation history will be saved here
         </ThemedText>
@@ -66,4 +64,3 @@ const styles = StyleSheet.create({
     marginTop: 5
   }
 });
-

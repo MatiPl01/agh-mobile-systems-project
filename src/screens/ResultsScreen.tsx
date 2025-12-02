@@ -12,7 +12,6 @@ export default function ResultsScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   const handleNewCalculation = () => {
-    // Reset the stack to CalculateHome to prevent stack buildup
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
