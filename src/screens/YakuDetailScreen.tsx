@@ -1,10 +1,10 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { useRoute } from '@react-navigation/native';
-import type { RouteProp } from '@react-navigation/native';
-import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { Text, View } from '@/components';
 import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
+import type { RouteProp } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import React from 'react';
+import { ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 type YakuDetailRouteProp = RouteProp<YakuStackParamList, 'YakuDetail'>;
 
@@ -13,50 +13,50 @@ export default function YakuDetailScreen() {
   const { yakuId } = route.params;
 
   return (
-    <ThemedView style={styles.container}>
+    <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
-        <ThemedText type='title' style={styles.title}>
+        <Text type='title' style={styles.title}>
           Yaku Details
-        </ThemedText>
-        <ThemedText style={styles.yakuId}>ID: {yakuId}</ThemedText>
+        </Text>
+        <Text style={styles.yakuId}>ID: {yakuId}</Text>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Name</ThemedText>
-          <ThemedView style={styles.placeholder}>
-            <ThemedText style={styles.placeholderText}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Name</Text>
+          <View style={styles.placeholder}>
+            <Text style={styles.placeholderText}>
               Yaku name will be displayed here
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+            </Text>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Han Value</ThemedText>
-          <ThemedView style={styles.placeholder}>
-            <ThemedText style={styles.placeholderText}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Han Value</Text>
+          <View style={styles.placeholder}>
+            <Text style={styles.placeholderText}>
               Han value will be displayed here
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+            </Text>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Description</ThemedText>
-          <ThemedView style={styles.placeholder}>
-            <ThemedText style={styles.placeholderText}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Description</Text>
+          <View style={styles.placeholder}>
+            <Text style={styles.placeholderText}>
               Detailed description and conditions will be displayed here
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+            </Text>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Examples</ThemedText>
-          <ThemedView style={styles.placeholder}>
-            <ThemedText style={styles.placeholderText}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Examples</Text>
+          <View style={styles.placeholder}>
+            <Text style={styles.placeholderText}>
               Example hands will be displayed here
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+            </Text>
+          </View>
+        </View>
       </ScrollView>
-    </ThemedView>
+    </View>
   );
 }
 

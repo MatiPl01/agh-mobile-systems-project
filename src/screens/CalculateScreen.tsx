@@ -1,10 +1,10 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
@@ -12,13 +12,13 @@ export default function CalculateScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Calculate Points
-      </ThemedText>
-      <ThemedText style={styles.subtitle}>
+      </Text>
+      <Text style={styles.subtitle}>
         Choose how you want to input your hand
-      </ThemedText>
+      </Text>
 
       <Pressable
         style={({ pressed }) => [
@@ -26,7 +26,7 @@ export default function CalculateScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => navigation.navigate('Scanner')}>
-        <ThemedText style={styles.buttonText}>Scan Board</ThemedText>
+        <Text style={styles.buttonText}>Scan Board</Text>
       </Pressable>
 
       <Pressable
@@ -35,9 +35,9 @@ export default function CalculateScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => navigation.navigate('Calculator')}>
-        <ThemedText style={styles.buttonText}>Manual Input</ThemedText>
+        <Text style={styles.buttonText}>Manual Input</Text>
       </Pressable>
-    </ThemedView>
+    </View>
   );
 }
 

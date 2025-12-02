@@ -1,10 +1,10 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
+import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Pressable, StyleSheet } from 'react-native';
-import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
+import { Pressable } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
@@ -12,22 +12,22 @@ export default function EditHandScreen() {
   const navigation = useNavigation<NavigationProp>();
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         Edit Hand
-      </ThemedText>
-      <ThemedText style={styles.subtitle}>
+      </Text>
+      <Text style={styles.subtitle}>
         Adjust tiles that were incorrectly identified
-      </ThemedText>
+      </Text>
 
-      <ThemedView style={styles.placeholder}>
-        <ThemedText style={styles.placeholderText}>
+      <View style={styles.placeholder}>
+        <Text style={styles.placeholderText}>
           Tile editor interface will go here
-        </ThemedText>
-        <ThemedText style={styles.placeholderSubtext}>
+        </Text>
+        <Text style={styles.placeholderSubtext}>
           Add, remove, or modify tiles
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       <Pressable
         style={({ pressed }) => [
@@ -35,9 +35,9 @@ export default function EditHandScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => navigation.goBack()}>
-        <ThemedText style={styles.buttonText}>Save & Recalculate</ThemedText>
+        <Text style={styles.buttonText}>Save & Recalculate</Text>
       </Pressable>
-    </ThemedView>
+    </View>
   );
 }
 

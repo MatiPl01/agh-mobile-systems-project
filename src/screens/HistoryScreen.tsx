@@ -1,26 +1,25 @@
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
+import { Text, View } from '@/components';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native-unistyles';
 
 export default function HistoryScreen() {
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type='title' style={styles.title}>
+    <View style={styles.container}>
+      <Text type='title' style={styles.title}>
         History
-      </ThemedText>
+      </Text>
 
-      <ThemedView style={styles.placeholder}>
-        <ThemedText style={styles.placeholderEmoji}>📜</ThemedText>
-        <ThemedText style={styles.placeholderTitle}>Coming Soon</ThemedText>
-        <ThemedText style={styles.placeholderText}>
+      <View style={styles.placeholder}>
+        <Text style={styles.placeholderEmoji}>📜</Text>
+        <Text style={styles.placeholderTitle}>Coming Soon</Text>
+        <Text style={styles.placeholderText}>
           Your calculation history will be saved here
-        </ThemedText>
-        <ThemedText style={styles.placeholderSubtext}>
+        </Text>
+        <Text style={styles.placeholderSubtext}>
           View past hands, scores, and statistics
-        </ThemedText>
-      </ThemedView>
-    </ThemedView>
+        </Text>
+      </View>
+    </View>
   );
 }
 
