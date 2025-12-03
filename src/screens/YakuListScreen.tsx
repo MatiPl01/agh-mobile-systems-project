@@ -9,8 +9,9 @@ import {
 } from '@/utils/yakuSearch';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useMemo, useState } from 'react';
-import { SectionList } from 'react-native';
+import React, { useMemo, useRef, useState } from 'react';
+import { Pressable, SectionList } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<YakuStackParamList>;
@@ -29,6 +30,9 @@ export default function YakuListScreen() {
     type: null,
     category: null
   });
+  const [showScrollToTop, setShowScrollToTop] = useState(false);
+  const listRef = useRef<SectionList>(null);
+  const manuallyHiddenRef = useRef(false);
 
   const allCategories = useMemo(() => getAllCategories(), []);
   const fuse = useMemo(() => createYakuFuse(), []);
@@ -96,6 +100,40 @@ export default function YakuListScreen() {
     });
   };
 
+  const handleScroll = (event: any) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    const shouldShow = offsetY > 300; // Show button after scrolling 300px
+
+    // If manually hidden, only show again if scrolled back to top
+    if (manuallyHiddenRef.current) {
+      if (offsetY < 100) {
+        manuallyHiddenRef.current = false;
+        if (shouldShow) {
+          setShowScrollToTop(true);
+        }
+      }
+      return;
+    }
+
+    if (shouldShow !== showScrollToTop) {
+      setShowScrollToTop(shouldShow);
+    }
+  };
+
+  const scrollToTop = () => {
+    if (sections.length > 0) {
+      // Hide button when pressed and mark as manually hidden
+      manuallyHiddenRef.current = true;
+      setShowScrollToTop(false);
+
+      listRef.current?.scrollToLocation({
+        sectionIndex: 0,
+        itemIndex: 0,
+        animated: true
+      });
+    }
+  };
+
   // Update header search bar when search query changes
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -152,6 +190,7 @@ export default function YakuListScreen() {
       />
 
       <SectionList
+        ref={listRef}
         sections={sections}
         renderItem={({ item }) => (
           <YakuCard yaku={item} onPress={handleYakuPress} />
@@ -169,7 +208,25 @@ export default function YakuListScreen() {
         contentInsetAdjustmentBehavior='automatic'
         showsVerticalScrollIndicator={false}
         stickySectionHeadersEnabled={false}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
       />
+
+      <Animated.View
+        style={[
+          styles.scrollToTopButtonContainer,
+          showScrollToTop
+            ? styles.scrollToTopButtonVisible
+            : styles.scrollToTopButtonHidden
+        ]}
+        pointerEvents={showScrollToTop ? 'auto' : 'none'}>
+        <Pressable
+          onPress={scrollToTop}
+          style={styles.scrollToTopButton}
+          android_ripple={{ color: 'rgba(255, 255, 255, 0.2)' }}>
+          <Text style={styles.scrollToTopIcon}>↑</Text>
+        </Pressable>
+      </Animated.View>
     </View>
   );
 }
@@ -214,5 +271,38 @@ const stylesheet = StyleSheet.create(theme => ({
     color: theme.colors.textSecondary,
     textAlign: 'center',
     fontSize: theme.typography.sizes.base
+  },
+  scrollToTopButtonContainer: {
+    position: 'absolute',
+    right: theme.spacing.base,
+    transitionDuration: 200,
+    transitionTimingFunction: 'ease-out'
+  },
+  scrollToTopButtonVisible: {
+    bottom: theme.spacing.xl
+  },
+  scrollToTopButtonHidden: {
+    bottom: -100
+  },
+  scrollToTopButton: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#2C2C2E', // Dark gray instead of blue
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 6
+  },
+  scrollToTopIcon: {
+    fontSize: 24,
+    color: '#FFFFFF',
+    fontWeight: '700'
   }
 }));
