@@ -1,5 +1,5 @@
 import { Text, View } from '@/components';
-import { getYakuById } from '@/data/yaku';
+import { getYakuById } from '@data/yaku';
 import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
 import type { RouteProp } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';

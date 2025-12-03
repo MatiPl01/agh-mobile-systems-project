@@ -3,7 +3,9 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@assets/*": ["./assets/*"],
+      "@data/*": ["./data/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
