@@ -1,8 +1,11 @@
-import { Text, View } from '@/components';
+import { Text, View, HandBuilder, TileSelector } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
+import type { TileId } from '@assets/images/tiles';
+import type { Meld } from '@/types/hand';
+import { addTile, canAddTile, getTileCounts, removeTile } from '@/utils/hand';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { Pressable } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -10,88 +13,90 @@ type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
 export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const styles = stylesheet;
+  const [tiles, setTiles] = useState<TileId[]>([]);
+  const [melds, setMelds] = useState<Meld[]>([]);
+
+  const handleTilePress = (tileId: TileId) => {
+    if (canAddTile(tiles, tileId)) {
+      setTiles(addTile(tiles, tileId));
+    }
+  };
+
+  const handleRemoveTile = (index: number) => {
+    // Just remove the tile - meld updates are handled by HandBuilder
+    setTiles(removeTile(tiles, index));
+  };
+
+  const handleClearAll = () => {
+    setTiles([]);
+    setMelds([]);
+  };
+
+  const handleCalculate = () => {
+    if (tiles.length === 14) {
+      // TODO: Pass hand data to results screen
+      navigation.navigate('Results');
+    }
+  };
+
+  const selectedCounts = getTileCounts(tiles);
+  const canSelectMore = tiles.length < 14;
 
   return (
     <View style={styles.container}>
-      <Text type='title' style={styles.title}>
-        Manual Input
-      </Text>
-      <Text style={styles.subtitle}>
-        Select tiles manually to build your hand
-      </Text>
-
-      <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          Tile selection interface will go here
+      <View style={styles.header}>
+        <Text type='title' style={styles.title}>
+          Manual Input
+        </Text>
+        <Text style={styles.subtitle}>
+          Select tiles to build your hand
         </Text>
       </View>
 
-      <Pressable
-        style={({ pressed }) => [
-          styles.button,
-          pressed && styles.buttonPressed
-        ]}
-        onPress={() => {
-          navigation.navigate('Results');
-        }}>
-        <Text style={styles.buttonText}>Calculate Points</Text>
-      </Pressable>
+      <View style={styles.tileSelectorContainer}>
+        <TileSelector
+          onTilePress={handleTilePress}
+          selectedCounts={selectedCounts}
+          canSelectMore={canSelectMore}
+        />
+      </View>
+
+      <HandBuilder
+        tiles={tiles}
+        melds={melds}
+        onRemoveTile={handleRemoveTile}
+        onUpdateMelds={setMelds}
+        onClearAll={handleClearAll}
+        onCalculate={handleCalculate}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const stylesheet = StyleSheet.create(theme => ({
   container: {
     flex: 1,
-    padding: 20,
-    gap: 20
+    backgroundColor: theme.colors.background
+  },
+  header: {
+    padding: theme.spacing.base,
+    paddingBottom: theme.spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.border
   },
   title: {
     textAlign: 'center',
-    marginBottom: 10
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text
   },
   subtitle: {
     textAlign: 'center',
-    fontSize: 16,
-    opacity: 0.7,
-    marginBottom: 10
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.textSecondary
   },
-  placeholder: {
+  tileSelectorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#999',
-    borderRadius: 12,
-    marginVertical: 20
-  },
-  placeholderText: {
-    fontSize: 16,
-    opacity: 0.5,
-    textAlign: 'center'
-  },
-  button: {
-    width: '100%',
-    borderRadius: 12,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5
-  },
-  buttonPressed: {
-    opacity: 0.8
-  },
-  buttonText: {
-    backgroundColor: '#007AFF',
-    color: '#FFFFFF',
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    fontSize: 18,
-    fontWeight: '600',
-    textAlign: 'center',
-    borderRadius: 12
+    minHeight: 200
   }
-});
+}));
