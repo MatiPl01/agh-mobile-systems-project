@@ -34,16 +34,8 @@ export default function FilterChip({
   };
 
   return (
-    <Pressable
-      onPress={onPress}
-      style={[styles.chip, getActiveStyle()]}>
-      <Text
-        style={[
-          styles.text,
-          isActive && styles.textActive
-        ]}>
-        {label}
-      </Text>
+    <Pressable onPress={onPress} style={[styles.chip, getActiveStyle()]}>
+      <Text style={[styles.text, isActive && styles.textActive]}>{label}</Text>
     </Pressable>
   );
 }
@@ -71,4 +63,3 @@ const stylesheet = StyleSheet.create(theme => ({
     fontWeight: '600'
   }
 }));
-

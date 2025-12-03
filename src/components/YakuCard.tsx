@@ -126,4 +126,3 @@ const stylesheet = StyleSheet.create(theme => ({
     marginRight: theme.spacing.xs / 2
   }
 }));
-

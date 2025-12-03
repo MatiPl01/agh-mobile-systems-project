@@ -12,7 +12,9 @@ export function getRarityColor(rarity: Rarity): string {
   return RARITY_COLORS[rarity];
 }
 
-export function getRarityColorWithAlpha(rarity: Rarity, alpha: string = '20'): string {
+export function getRarityColorWithAlpha(
+  rarity: Rarity,
+  alpha: string = '20'
+): string {
   return RARITY_COLORS[rarity] + alpha;
 }
-

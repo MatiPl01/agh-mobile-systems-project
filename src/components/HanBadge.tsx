@@ -18,15 +18,9 @@ export default function HanBadge({ yaku }: HanBadgeProps) {
 
   return (
     <View
-      style={[
-        styles.badge,
-        yaku.type === 'yakuman' && styles.badgeYakuman
-      ]}>
+      style={[styles.badge, yaku.type === 'yakuman' && styles.badgeYakuman]}>
       <Text
-        style={[
-          styles.text,
-          yaku.type === 'yakuman' && styles.textYakuman
-        ]}>
+        style={[styles.text, yaku.type === 'yakuman' && styles.textYakuman]}>
         {hanDisplay}
       </Text>
     </View>
@@ -61,4 +55,3 @@ const stylesheet = StyleSheet.create(theme => ({
     letterSpacing: 0.5
   }
 }));
-

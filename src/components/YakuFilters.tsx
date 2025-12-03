@@ -35,17 +35,23 @@ export default function YakuFilters({
         {/* Rarity Filters */}
         <View style={styles.filterGroup}>
           <Text style={styles.filterGroupLabel}>Rarity:</Text>
-          {(['Frequent', 'Unusual', 'Rare', 'Very Rare', 'Ultra Rare'] as Rarity[]).map(
-            rarity => (
-              <FilterChip
-                key={rarity}
-                label={rarity}
-                isActive={filters.rarity === rarity}
-                onPress={() => onRarityToggle(rarity)}
-                rarity={rarity}
-              />
-            )
-          )}
+          {(
+            [
+              'Frequent',
+              'Unusual',
+              'Rare',
+              'Very Rare',
+              'Ultra Rare'
+            ] as Rarity[]
+          ).map(rarity => (
+            <FilterChip
+              key={rarity}
+              label={rarity}
+              isActive={filters.rarity === rarity}
+              onPress={() => onRarityToggle(rarity)}
+              rarity={rarity}
+            />
+          ))}
         </View>
 
         {/* Type Filters */}
@@ -54,7 +60,13 @@ export default function YakuFilters({
           {(['regular', 'yakuman', 'special'] as const).map(type => (
             <FilterChip
               key={type}
-              label={type === 'yakuman' ? 'Yakuman' : type === 'regular' ? 'Regular' : 'Special'}
+              label={
+                type === 'yakuman'
+                  ? 'Yakuman'
+                  : type === 'regular'
+                  ? 'Regular'
+                  : 'Special'
+              }
               isActive={filters.type === type}
               onPress={() => onTypeToggle(type)}
             />
@@ -123,4 +135,3 @@ const stylesheet = StyleSheet.create(theme => ({
     fontWeight: '600'
   }
 }));
-
