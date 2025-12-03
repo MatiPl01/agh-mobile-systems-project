@@ -1,4 +1,4 @@
-import { Text, View } from '@/components';
+import { HanBadge, RarityBadge, Text, View } from '@/components';
 import { getYakuById } from '@/data/yaku';
 import type { YakuStackParamList } from '@/navigation/YakuStackNavigator';
 import { TILES } from '@assets/images/tiles';
@@ -44,38 +44,14 @@ export default function YakuDetailScreen() {
             <Text style={styles.nameJp}>{yaku.nameJp}</Text>
             <Text style={styles.nameEn}>{yaku.nameEn}</Text>
           </View>
-          <View
-            style={[
-              styles.hanBadge,
-              yaku.type === 'yakuman' && styles.hanBadgeYakuman
-            ]}>
-            <Text
-              style={[
-                styles.hanText,
-                yaku.type === 'yakuman' && styles.hanTextYakuman
-              ]}>
-              {yaku.han === 'yakuman' ? '役満' : `${yaku.han} han`}
-            </Text>
-          </View>
+          <HanBadge yaku={yaku} />
         </View>
 
         <View style={styles.badgesRow}>
           <View style={styles.categoryBadge}>
             <Text style={styles.categoryText}>{yaku.category}</Text>
           </View>
-          {yaku.rarity && (
-            <View
-              style={[
-                styles.rarityBadge,
-                yaku.rarity === 'Frequent' && styles.rarityBadgeFrequent,
-                yaku.rarity === 'Unusual' && styles.rarityBadgeUnusual,
-                yaku.rarity === 'Rare' && styles.rarityBadgeRare,
-                yaku.rarity === 'Very Rare' && styles.rarityBadgeVeryRare,
-                yaku.rarity === 'Ultra Rare' && styles.rarityBadgeUltraRare
-              ]}>
-              <Text style={styles.rarityText}>{yaku.rarity}</Text>
-            </View>
-          )}
+          {yaku.rarity && <RarityBadge rarity={yaku.rarity} size='medium' />}
         </View>
 
         {yaku.exampleTiles && yaku.exampleTiles.length > 0 && (
@@ -183,32 +159,6 @@ const stylesheet = StyleSheet.create(theme => ({
     color: theme.colors.textSecondary,
     fontStyle: 'italic'
   },
-  hanBadge: {
-    backgroundColor: '#6366F1', // Indigo for regular han
-    paddingHorizontal: theme.spacing.base,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: 999, // Fully rounded
-    minWidth: 60,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  hanBadgeYakuman: {
-    backgroundColor: '#DC2626' // Red for yakuman
-  },
-  hanText: {
-    fontSize: theme.typography.sizes.sm,
-    fontFamily: theme.typography.fonts.medium,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    letterSpacing: 0.5
-  },
-  hanTextYakuman: {
-    fontSize: theme.typography.sizes.sm,
-    fontFamily: theme.typography.fonts.medium,
-    fontWeight: '700',
-    color: '#FFFFFF',
-    letterSpacing: 0.5
-  },
   badgesRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -228,34 +178,6 @@ const stylesheet = StyleSheet.create(theme => ({
     fontSize: theme.typography.sizes.sm,
     color: theme.colors.textSecondary,
     fontWeight: '500'
-  },
-  rarityBadge: {
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: 999, // Fully rounded
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  rarityBadgeFrequent: {
-    backgroundColor: '#34C759' // Green
-  },
-  rarityBadgeUnusual: {
-    backgroundColor: '#0A84FF' // Blue
-  },
-  rarityBadgeRare: {
-    backgroundColor: '#FF9500' // Orange
-  },
-  rarityBadgeVeryRare: {
-    backgroundColor: '#FF3B30' // Red
-  },
-  rarityBadgeUltraRare: {
-    backgroundColor: '#AF52DE' // Purple
-  },
-  rarityText: {
-    fontSize: theme.typography.sizes.xs,
-    color: '#FFFFFF', // White text for rarity badge
-    fontWeight: '700',
-    letterSpacing: 0.5
   },
   section: {
     gap: theme.spacing.sm
