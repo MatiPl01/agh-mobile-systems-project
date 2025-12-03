@@ -49,9 +49,7 @@ export default function CalculatorScreen() {
         <Text type='title' style={styles.title}>
           Manual Input
         </Text>
-        <Text style={styles.subtitle}>
-          Select tiles to build your hand
-        </Text>
+        <Text style={styles.subtitle}>Select tiles to build your hand</Text>
       </View>
 
       <View style={styles.tileSelectorContainer}>

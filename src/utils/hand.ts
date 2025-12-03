@@ -14,7 +14,7 @@ export function getTileCounts(tiles: TileId[]): TileCount {
 
 export function canAddTile(tiles: TileId[], tileId: TileId): boolean {
   if (tiles.length >= HAND_SIZE) return false;
-  
+
   const counts = getTileCounts(tiles);
   return (counts[tileId] || 0) < MAX_TILES_PER_TYPE;
 }
@@ -31,4 +31,3 @@ export function removeTile(tiles: TileId[], index: number): TileId[] {
 export function getTilesRemaining(tiles: TileId[]): number {
   return HAND_SIZE - tiles.length;
 }
-

@@ -67,7 +67,10 @@ export default function TileSelector({
                     count > 0 && styles.tileButtonSelected,
                     isMaxed && styles.tileButtonMaxed,
                     (isDisabled || isMaxed) && styles.tileButtonDisabled,
-                    pressed && !isDisabled && !isMaxed && styles.tileButtonPressed
+                    pressed &&
+                      !isDisabled &&
+                      !isMaxed &&
+                      styles.tileButtonPressed
                   ]}>
                   <Image
                     source={TILES[tileId]}
@@ -163,4 +166,3 @@ const stylesheet = StyleSheet.create(theme => ({
     color: '#FFFFFF'
   }
 }));
-

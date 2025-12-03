@@ -18,4 +18,3 @@ export interface Hand {
 }
 
 export type TileCount = Record<TileId, number>;
-
