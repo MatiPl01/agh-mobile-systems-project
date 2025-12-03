@@ -6,6 +6,7 @@ import {
 } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { UnistylesRuntime, useUnistyles } from 'react-native-unistyles';
 
@@ -18,15 +19,17 @@ function AppContent() {
   }, [isDarkMode]);
 
   return (
-    <SafeAreaProvider>
-      <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={theme.colors.background}
-        />
-        <RootNavigator />
-      </ThemeProvider>
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={theme.colors.background}
+          />
+          <RootNavigator />
+        </ThemeProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }
 
