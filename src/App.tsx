@@ -1,17 +1,21 @@
 import RootNavigator from '@/navigation/RootNavigator';
-import '@/theme/unistyles';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider
 } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { StatusBar, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { useUnistyles } from 'react-native-unistyles';
+import { UnistylesRuntime, useUnistyles } from 'react-native-unistyles';
 
 function AppContent() {
   const isDarkMode = useColorScheme() === 'dark';
   const { theme } = useUnistyles();
+
+  useEffect(() => {
+    UnistylesRuntime.setTheme(isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
   return (
     <SafeAreaProvider>
