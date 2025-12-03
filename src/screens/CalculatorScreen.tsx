@@ -1,12 +1,11 @@
-import { Text, View, HandBuilder, TileSelector } from '@/components';
+import { HandBuilder, Text, TileSelector, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
-import type { TileId } from '@assets/images/tiles';
 import type { Meld } from '@/types/hand';
 import { addTile, canAddTile, getTileCounts, removeTile } from '@/utils/hand';
+import type { TileId } from '@assets/images/tiles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { Pressable } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
