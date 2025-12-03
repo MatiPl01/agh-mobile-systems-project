@@ -8,9 +8,7 @@ const path = require('path');
  * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
-  watchFolders: [
-    path.resolve(__dirname, 'assets')
-  ],
+  watchFolders: [path.resolve(__dirname, 'assets')],
   resolver: {
     alias: {
       '@assets': path.resolve(__dirname, 'assets')

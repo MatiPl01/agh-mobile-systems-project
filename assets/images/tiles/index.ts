@@ -120,4 +120,3 @@ export const TILES: Record<TileId, number> = {
   gd: tileGd,
   rd: tileRd
 };
-
