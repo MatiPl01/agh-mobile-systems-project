@@ -1,5 +1,4 @@
 import RootNavigator from '@/navigation/RootNavigator';
-import '@/theme/unistyles';
 import {
   DarkTheme,
   DefaultTheme,

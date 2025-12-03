@@ -12,11 +12,10 @@ module.exports = {
     [
       'module-resolver',
       {
-        root: ['./src'],
+        root: ['./'],
         alias: {
           '@': './src',
-          '@assets': './assets',
-          '@data': './data'
+          '@assets': './assets'
         }
       }
     ],
