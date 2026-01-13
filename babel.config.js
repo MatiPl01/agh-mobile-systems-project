@@ -4,12 +4,6 @@ module.exports = {
     ['@babel/plugin-proposal-optional-chaining'],
     ['@babel/plugin-proposal-nullish-coalescing-operator'],
     [
-      'react-native-worklets-core/plugin',
-      {
-        globals: ['__detectObjects']
-      }
-    ],
-    [
       'module-resolver',
       {
         root: ['./src'],

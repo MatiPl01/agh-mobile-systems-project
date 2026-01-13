@@ -10,6 +10,7 @@
 		0C80B921A6F3F58F76C31292 /* libPods-RiichiMahjongCalculator.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-RiichiMahjongCalculator.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		17958B66DD75C4B448AB7CA3 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		1F8C2A6A2EDE791E00C49FC3 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8C2A692EDE791E00C49FC3 /* CoreML.framework */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		EB1B31E07E1E4A199994EDBE /* 1.tflite in Resources */ = {isa = PBXBuildFile; fileRef = 4E0FCDB41D454CE1B19EAC5D /* 1.tflite */; };
@@ -20,8 +21,9 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = RiichiMahjongCalculator/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RiichiMahjongCalculator/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = RiichiMahjongCalculator/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		1F8C2A692EDE791E00C49FC3 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		3B4392A12AC88292D35C810B /* Pods-RiichiMahjongCalculator.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiichiMahjongCalculator.debug.xcconfig"; path = "Target Support Files/Pods-RiichiMahjongCalculator/Pods-RiichiMahjongCalculator.debug.xcconfig"; sourceTree = "<group>"; };
-		4E0FCDB41D454CE1B19EAC5D /* 1.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = 1.tflite; path = ../assets/model/1.tflite; sourceTree = "<group>"; };
+		4E0FCDB41D454CE1B19EAC5D /* 1.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 1.tflite; path = ../assets/model/1.tflite; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-RiichiMahjongCalculator.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RiichiMahjongCalculator.release.xcconfig"; path = "Target Support Files/Pods-RiichiMahjongCalculator/Pods-RiichiMahjongCalculator.release.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-RiichiMahjongCalculator.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RiichiMahjongCalculator.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = RiichiMahjongCalculator/AppDelegate.swift; sourceTree = "<group>"; };
@@ -34,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8C2A6A2EDE791E00C49FC3 /* CoreML.framework in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-RiichiMahjongCalculator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -56,6 +59,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F8C2A692EDE791E00C49FC3 /* CoreML.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-RiichiMahjongCalculator.a */,
 			);
@@ -107,7 +111,6 @@
 				4E0FCDB41D454CE1B19EAC5D /* 1.tflite */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
