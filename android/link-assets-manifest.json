@@ -2,8 +2,408 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/images/tiles/Back.png",
+      "sha1": "7866f9daf48a2d250d1ecc16fdc60ab02a51f719"
+    },
+    {
+      "path": "assets/images/tiles/Blank.png",
+      "sha1": "194a0a59cb4946174a6869278416c3ec1cf2cda6"
+    },
+    {
+      "path": "assets/images/tiles/Chun.png",
+      "sha1": "f5ba87a1e4217b19f66b55084635cf3f3bdd2fc7"
+    },
+    {
+      "path": "assets/images/tiles/Front.png",
+      "sha1": "1e07176de87d9032101d5af22ed2b6870b042094"
+    },
+    {
+      "path": "assets/images/tiles/Haku.png",
+      "sha1": "c1b6ef7f345949649de5bd28defdc19528abaf66"
+    },
+    {
+      "path": "assets/images/tiles/Hatsu.png",
+      "sha1": "73824047175a51f7baa25492d5b5c098d2ca7d9e"
+    },
+    {
+      "path": "assets/images/tiles/Man1.png",
+      "sha1": "3a136eeb889e8c14362af837d046ffa2591b731e"
+    },
+    {
+      "path": "assets/images/tiles/Man2.png",
+      "sha1": "82d06957ad6a7d8ab024ff26d3ba4f90b1f394aa"
+    },
+    {
+      "path": "assets/images/tiles/Man3.png",
+      "sha1": "3cc51363774d2f204000567aa920a88efd006a93"
+    },
+    {
+      "path": "assets/images/tiles/Man4.png",
+      "sha1": "a5bc3f37ccbf24abff6041d4a8760b8047cf2012"
+    },
+    {
+      "path": "assets/images/tiles/Man5-Dora.png",
+      "sha1": "d1e76f367e5de49ca84179b7c6d22b290ca26874"
+    },
+    {
+      "path": "assets/images/tiles/Man5.png",
+      "sha1": "d7b3faecf7e2599b70b26ada4ca60d01551c3e9d"
+    },
+    {
+      "path": "assets/images/tiles/Man6.png",
+      "sha1": "a1f051b32360a04567d54baa44b17dca6e2ee81f"
+    },
+    {
+      "path": "assets/images/tiles/Man7.png",
+      "sha1": "f3ad6017f8024d34f84f6ea3aeacdf005187a61e"
+    },
+    {
+      "path": "assets/images/tiles/Man8.png",
+      "sha1": "6223dac870948ee0273549f5927809208635d827"
+    },
+    {
+      "path": "assets/images/tiles/Man9.png",
+      "sha1": "bb042067a55a0ba7fd1b1df498a1b3bf6797f772"
+    },
+    {
+      "path": "assets/images/tiles/Nan.png",
+      "sha1": "81ae8fc71e57ca9bc5d769b59a3949df75cb6190"
+    },
+    {
+      "path": "assets/images/tiles/Pei.png",
+      "sha1": "a48e376916ce5fff721d0f4204e49e46d91496ee"
+    },
+    {
+      "path": "assets/images/tiles/Pin1.png",
+      "sha1": "224514e125f92ae0f0e6e9416bc6f9616ac43ba4"
+    },
+    {
+      "path": "assets/images/tiles/Pin2.png",
+      "sha1": "b7b95d831ca755b00f40ec0793348dddd81c81ce"
+    },
+    {
+      "path": "assets/images/tiles/Pin3.png",
+      "sha1": "912c582a48783c714339bbaaf8b358ad7ea795e0"
+    },
+    {
+      "path": "assets/images/tiles/Pin4.png",
+      "sha1": "9b8f383aa6a0861eae2ab2610d79e043b88e596c"
+    },
+    {
+      "path": "assets/images/tiles/Pin5-Dora.png",
+      "sha1": "c19ffda4ee0c100718725a0d6132a311a35eede1"
+    },
+    {
+      "path": "assets/images/tiles/Pin5.png",
+      "sha1": "f2bf63bf1cbe0c544bb9dd88e36a7438330328d2"
+    },
+    {
+      "path": "assets/images/tiles/Pin6.png",
+      "sha1": "6bd5b484ca3d148d1e0298fd1205288b0109c964"
+    },
+    {
+      "path": "assets/images/tiles/Pin7.png",
+      "sha1": "b7ba7813fa1687c0bd7e438a73c09c9c6f05f73f"
+    },
+    {
+      "path": "assets/images/tiles/Pin8.png",
+      "sha1": "4cafd2a8ade4879348fac9c447263a100d516e15"
+    },
+    {
+      "path": "assets/images/tiles/Pin9.png",
+      "sha1": "4bf7db741f51d7c2663f0ad463d1b18e14418c2c"
+    },
+    {
+      "path": "assets/images/tiles/Shaa.png",
+      "sha1": "5dda37e1b7e991fbafe529bb8ab14a3ca683fdf4"
+    },
+    {
+      "path": "assets/images/tiles/Sou1.png",
+      "sha1": "8ead06a711428edc5e5bf5acc292473b1ba8b4f1"
+    },
+    {
+      "path": "assets/images/tiles/Sou2.png",
+      "sha1": "35ea43ad0b426ffbcd393cc24bb3b68aa77f6796"
+    },
+    {
+      "path": "assets/images/tiles/Sou3.png",
+      "sha1": "b646d2f6f46200d79c46352470a8576d71c90bc6"
+    },
+    {
+      "path": "assets/images/tiles/Sou4.png",
+      "sha1": "0b8af75b18b1a373355a435f0e17a32a88ade23f"
+    },
+    {
+      "path": "assets/images/tiles/Sou5-Dora.png",
+      "sha1": "f839039d5da7bd7d604f2c31179cc7977eee8d3a"
+    },
+    {
+      "path": "assets/images/tiles/Sou5.png",
+      "sha1": "b1548b25d6b51716ad90103c172e284a7ee33cfb"
+    },
+    {
+      "path": "assets/images/tiles/Sou6.png",
+      "sha1": "1fd24ce484b4b21f68ee086a7f7af0eec7f27c15"
+    },
+    {
+      "path": "assets/images/tiles/Sou7.png",
+      "sha1": "5c3eabe49b21564bbeaaccba63ca7e8cb63cc1b0"
+    },
+    {
+      "path": "assets/images/tiles/Sou8.png",
+      "sha1": "59a09d127ea5423e3fdde91c606f4f5c67473b6b"
+    },
+    {
+      "path": "assets/images/tiles/Sou9.png",
+      "sha1": "c9c93f303a955e74c942d213b82499de8e691c56"
+    },
+    {
+      "path": "assets/images/tiles/Ton.png",
+      "sha1": "76bf82f467a204c5fccda2e270760c24568377d3"
+    },
+    {
+      "path": "assets/images/tiles/index.ts",
+      "sha1": "95d4ea3062dc34e011ad653ce43d539557bd89c7"
+    },
+    {
       "path": "assets/model/1.tflite",
       "sha1": "f4d867b4df241353b094ba306445f305a1ca8133"
+    },
+    {
+      "path": "assets/model/Black/Back.svg",
+      "sha1": "b019e083299ce436ac5aa3af230a4944082bc105"
+    },
+    {
+      "path": "assets/model/Black/Blank.svg",
+      "sha1": "0dc85ef3e56c0ce4222e714eb3b468788dfc9633"
+    },
+    {
+      "path": "assets/model/Black/Chun.svg",
+      "sha1": "aaccd5f4dcb080230336d880e42c3c65427244f3"
+    },
+    {
+      "path": "assets/model/Black/Front.svg",
+      "sha1": "765239b7f0b58579ea4cd26d5ba74bc92e05ba74"
+    },
+    {
+      "path": "assets/model/Black/Haku.svg",
+      "sha1": "6f77426db6b6055e82794645dde150975e09a302"
+    },
+    {
+      "path": "assets/model/Black/Hatsu.svg",
+      "sha1": "7b4fa0717e3321018d6b7b3db2e01429a3d4748a"
+    },
+    {
+      "path": "assets/model/Black/Man1.svg",
+      "sha1": "b76141ba3b9f59bb9b676f9153336d29c296aa89"
+    },
+    {
+      "path": "assets/model/Black/Man2.svg",
+      "sha1": "aee80e783bb3d339b81adbd2cb4a28b2d999842c"
+    },
+    {
+      "path": "assets/model/Black/Man3.svg",
+      "sha1": "ec7f25d82bee997d150e4b8a0e5d8aea5671fb22"
+    },
+    {
+      "path": "assets/model/Black/Man4.svg",
+      "sha1": "44ed651be33d70e0621481cbe444c74fe06615cf"
+    },
+    {
+      "path": "assets/model/Black/Man5-Dora.svg",
+      "sha1": "be2cd0dd28f42f597cb55d53b827187cc2c63d89"
+    },
+    {
+      "path": "assets/model/Black/Man5.svg",
+      "sha1": "a29c914a45612fc008dfd94afefa0a6c4601bd19"
+    },
+    {
+      "path": "assets/model/Black/Man6.svg",
+      "sha1": "e506d04e9bed8de54ef2af59b180c4c225f47ae8"
+    },
+    {
+      "path": "assets/model/Black/Man7.svg",
+      "sha1": "507e6f24eadf1bb262142fc870f683232420a4d8"
+    },
+    {
+      "path": "assets/model/Black/Man8.svg",
+      "sha1": "eabe6629dd8578076c150a63e877a2aa1b16e8c8"
+    },
+    {
+      "path": "assets/model/Black/Man9.svg",
+      "sha1": "6bcf62f2efce9360744d2e6dec9d89e1f9141a34"
+    },
+    {
+      "path": "assets/model/Black/Nan.svg",
+      "sha1": "12c50b75a1878191097c31d333ba66bb79b97f2f"
+    },
+    {
+      "path": "assets/model/Black/Pei.svg",
+      "sha1": "12bc98038d997b24c5f76d8fdeaa6c3ae5ea8cac"
+    },
+    {
+      "path": "assets/model/Black/Pin1.svg",
+      "sha1": "1c09020b4a1a46a1c1eb28caed77b75d61696346"
+    },
+    {
+      "path": "assets/model/Black/Pin2.svg",
+      "sha1": "75ee08759b05cdac44315d811146dfda79a4adc6"
+    },
+    {
+      "path": "assets/model/Black/Pin3.svg",
+      "sha1": "fb12b13d6dc526f1c299a45c307c54ca930f6fbb"
+    },
+    {
+      "path": "assets/model/Black/Pin4.svg",
+      "sha1": "a3c1d9c8490d7ce9ad1c5fde07f6d387c06a6095"
+    },
+    {
+      "path": "assets/model/Black/Pin5-Dora.svg",
+      "sha1": "ca53b0d5c66eb9c09b1e44652aee29d718669ba9"
+    },
+    {
+      "path": "assets/model/Black/Pin5.svg",
+      "sha1": "35636166028a76d07ecd2188f2392eeda4539d67"
+    },
+    {
+      "path": "assets/model/Black/Pin6.svg",
+      "sha1": "081219bc8cedc07bde461cdcc97035b2ed1d4865"
+    },
+    {
+      "path": "assets/model/Black/Pin7.svg",
+      "sha1": "439d8d62c79f6518eaea5ec2708dd940f7bfb707"
+    },
+    {
+      "path": "assets/model/Black/Pin8.svg",
+      "sha1": "4262c7330ae310d5c317ac0a40117582e96947e4"
+    },
+    {
+      "path": "assets/model/Black/Pin9.svg",
+      "sha1": "1eea2e5fd9ba9e765dd8531728e91c80a6591a83"
+    },
+    {
+      "path": "assets/model/Black/Shaa.svg",
+      "sha1": "a5fb5160689a77985cfe49b2c1ab0793b71ce393"
+    },
+    {
+      "path": "assets/model/Black/Sou1.svg",
+      "sha1": "e9caca3d373ab25d8e6c70231c2b954ce81bb9c1"
+    },
+    {
+      "path": "assets/model/Black/Sou2.svg",
+      "sha1": "ea4da83ab7350cb85af779f95b67d36e4c21790b"
+    },
+    {
+      "path": "assets/model/Black/Sou3.svg",
+      "sha1": "9af0eab15141600e6ba5d10543309b72ca5c3415"
+    },
+    {
+      "path": "assets/model/Black/Sou4.svg",
+      "sha1": "64a2ca205c357f200267a297797cb43ebf5cc9eb"
+    },
+    {
+      "path": "assets/model/Black/Sou5-Dora.svg",
+      "sha1": "9744eb625fa4fc316ff30f4664a97f586f295b0c"
+    },
+    {
+      "path": "assets/model/Black/Sou5.svg",
+      "sha1": "a3aa12b3b03ff8ad7c2e067795082fc275630a60"
+    },
+    {
+      "path": "assets/model/Black/Sou6.svg",
+      "sha1": "d45409c39d9079052817e115b400898deffcdf3f"
+    },
+    {
+      "path": "assets/model/Black/Sou7.svg",
+      "sha1": "233f1948c542dcf1acdb5ef98acf09360905af85"
+    },
+    {
+      "path": "assets/model/Black/Sou8.svg",
+      "sha1": "35178fc7cb6c059c1626ed09fdd5bb86b2aae46a"
+    },
+    {
+      "path": "assets/model/Black/Sou9.svg",
+      "sha1": "a1d374ae4dffd5cd4b504fb962d0b51bb4c31a52"
+    },
+    {
+      "path": "assets/model/Black/Ton.svg",
+      "sha1": "8f7a2298892cec91fd8529c08a34b4a5ff1ce659"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+      "sha1": "4e77868439280fb434d4697c7b911271406c81f3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+      "sha1": "12b5670eb178138f77285d5f2c246d3cc5fa67d6"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+      "sha1": "91d377ea3cf47490b256c2ed081704a7dabdae0c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+      "sha1": "e6604258b1ced5efd51360875d782fca65381d47"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+      "sha1": "13b1eab65a983c7a73bc7997c479d66943f7c6cb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+      "sha1": "3fa2d67cef22da5c3f3eb5730c6afbd6fecf0372"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+      "sha1": "7d849a3981a716e2ba4a84634bc57d0b8054a6a3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+      "sha1": "c1b9fae262f42868c075ac865a8ab34920e20a2c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Brands.ttf",
+      "sha1": "7ce89c71d5a51ac65b159c71422783dd86529c66"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Regular.ttf",
+      "sha1": "775e2ecfc18d22b177274453d4c014ca6be63208"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/FontAwesome6_Solid.ttf",
+      "sha1": "2b8e11389d98122399667cf64941eb58497dc128"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+      "sha1": "c090a3ec96a3f1bb9b615c2f3f204ce0dcdcdbc3"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+      "sha1": "4b2bce6c792493a4a5716b6fec2dbefe89492c3f"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+      "sha1": "86e07c3d974eb09099e6e5a9b3b8310303cf0feb"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+      "sha1": "4c2a838b00dbb5e8bb1b368fce0de534e8eb241c"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+      "sha1": "7e02c3f005532ff4d24148567c84089756a7848a"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+      "sha1": "56acefc0731f35ee23b195b1c8cb5fa94a0db97b"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+      "sha1": "9ffb81a5a11112e292f2cc323e98486bad597599"
+    },
+    {
+      "path": "node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+      "sha1": "6a48a962b06cc3acbdfd61df0d9a34744eea5e8d"
     }
   ]
 }
