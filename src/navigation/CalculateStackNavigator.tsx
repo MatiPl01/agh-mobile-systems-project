@@ -1,6 +1,5 @@
 import type { TileId } from '@assets/images/tiles';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
 
 import CalculateScreen from '@/screens/CalculateScreen';
 import CalculatorScreen from '@/screens/CalculatorScreen';
@@ -12,8 +11,8 @@ export type CalculateStackParamList = {
   CalculateHome: undefined;
   Scanner: undefined;
   ScanConfirm: { tiles: TileId[] };
-  Calculator: { initialTiles?: TileId[] } | undefined;
-  Results: { tiles: TileId[] };
+  Calculator: { initialTiles?: TileId[]; historyId?: string } | undefined;
+  Results: { tiles: TileId[]; historyId?: string };
 };
 
 const Stack = createNativeStackNavigator<CalculateStackParamList>();
