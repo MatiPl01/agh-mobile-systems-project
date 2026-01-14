@@ -1,18 +1,19 @@
+import type { TileId } from '@assets/images/tiles';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
 import CalculateScreen from '@/screens/CalculateScreen';
 import CalculatorScreen from '@/screens/CalculatorScreen';
-import EditHandScreen from '@/screens/EditHandScreen';
 import ResultsScreen from '@/screens/ResultsScreen';
+import ScanConfirmScreen from '@/screens/ScanConfirmScreen';
 import ScannerScreen from '@/screens/ScannerScreen';
 
 export type CalculateStackParamList = {
   CalculateHome: undefined;
   Scanner: undefined;
-  Calculator: undefined;
+  ScanConfirm: { tiles: TileId[] };
+  Calculator: { initialTiles?: TileId[] } | undefined;
   Results: undefined;
-  EditHand: undefined;
 };
 
 const Stack = createNativeStackNavigator<CalculateStackParamList>();
@@ -35,19 +36,19 @@ export default function CalculateStackNavigator() {
         options={{ title: 'Scan Board' }}
       />
       <Stack.Screen
+        name='ScanConfirm'
+        component={ScanConfirmScreen}
+        options={{ title: 'Confirm Scan' }}
+      />
+      <Stack.Screen
         name='Calculator'
         component={CalculatorScreen}
-        options={{ title: 'Manual Input' }}
+        options={{ title: 'Hand Editor' }}
       />
       <Stack.Screen
         name='Results'
         component={ResultsScreen}
         options={{ title: 'Results' }}
-      />
-      <Stack.Screen
-        name='EditHand'
-        component={EditHandScreen}
-        options={{ title: 'Edit Hand' }}
       />
     </Stack.Navigator>
   );

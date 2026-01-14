@@ -3,18 +3,30 @@ import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigat
 import type { Meld } from '@/types/hand';
 import { addTile, canAddTile, getTileCounts, removeTile } from '@/utils/hand';
 import type { TileId } from '@assets/images/tiles';
-import { useNavigation } from '@react-navigation/native';
+import {
+  useNavigation,
+  useRoute,
+  type RouteProp
+} from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
+type CalculatorRouteProp = RouteProp<CalculateStackParamList, 'Calculator'>;
 
 export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<CalculatorRouteProp>();
   const styles = stylesheet;
   const [tiles, setTiles] = useState<TileId[]>([]);
   const [melds, setMelds] = useState<Meld[]>([]);
+
+  useEffect(() => {
+    if (route.params?.initialTiles) {
+      setTiles(route.params.initialTiles);
+    }
+  }, [route.params?.initialTiles]);
 
   const handleTilePress = (tileId: TileId) => {
     if (canAddTile(tiles, tileId)) {
@@ -23,7 +35,6 @@ export default function CalculatorScreen() {
   };
 
   const handleRemoveTile = (index: number) => {
-    // Just remove the tile - meld updates are handled by HandBuilder
     setTiles(removeTile(tiles, index));
   };
 
@@ -34,7 +45,6 @@ export default function CalculatorScreen() {
 
   const handleCalculate = () => {
     if (tiles.length === 14) {
-      // TODO: Pass hand data to results screen
       navigation.navigate('Results');
     }
   };
@@ -42,13 +52,16 @@ export default function CalculatorScreen() {
   const selectedCounts = getTileCounts(tiles);
   const canSelectMore = tiles.length < 14;
 
+  const isEditingFromScan = !!route.params?.initialTiles;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text type='title' style={styles.title}>
-          Manual Input
+        <Text style={styles.subtitle}>
+          {isEditingFromScan
+            ? 'Adjust tiles if needed'
+            : 'Select tiles to build your hand'}
         </Text>
-        <Text style={styles.subtitle}>Select tiles to build your hand</Text>
       </View>
 
       <View style={styles.tileSelectorContainer}>
@@ -66,6 +79,7 @@ export default function CalculatorScreen() {
         onUpdateMelds={setMelds}
         onClearAll={handleClearAll}
         onCalculate={handleCalculate}
+        initiallyExpanded={isEditingFromScan}
       />
     </View>
   );
@@ -81,11 +95,6 @@ const stylesheet = StyleSheet.create(theme => ({
     paddingBottom: theme.spacing.sm,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: theme.spacing.xs,
-    color: theme.colors.text
   },
   subtitle: {
     textAlign: 'center',

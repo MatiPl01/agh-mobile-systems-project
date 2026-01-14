@@ -1,5 +1,6 @@
 import { Scanner, Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
+import type { TileId } from '@assets/images/tiles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
@@ -8,8 +9,29 @@ import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
 
+const MOCK_SCAN_RESULT: TileId[] = [
+  '1m',
+  '2m',
+  '3m',
+  '4p',
+  '5p',
+  '6p',
+  '7s',
+  '7s',
+  '7s',
+  'ew',
+  'ew',
+  'ew',
+  'rd',
+  'rd'
+];
+
 export default function ScannerScreen() {
   const navigation = useNavigation<NavigationProp>();
+
+  const handleCalculate = () => {
+    navigation.navigate('ScanConfirm', { tiles: MOCK_SCAN_RESULT });
+  };
 
   return (
     <View style={styles.container}>
@@ -24,9 +46,7 @@ export default function ScannerScreen() {
           styles.button,
           pressed && styles.buttonPressed
         ]}
-        onPress={() => {
-          navigation.navigate('Results');
-        }}>
+        onPress={handleCalculate}>
         <Text style={styles.buttonText}>Calculate Points</Text>
       </Pressable>
     </View>
