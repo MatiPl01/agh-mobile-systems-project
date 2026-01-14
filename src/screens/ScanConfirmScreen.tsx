@@ -1,38 +1,49 @@
 import { Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { TILES } from '@assets/images/tiles';
+import {
+  useNavigation,
+  useRoute,
+  type RouteProp
+} from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Image, Pressable } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
+type ScanConfirmRouteProp = RouteProp<CalculateStackParamList, 'ScanConfirm'>;
 
-export default function ResultsScreen() {
+export default function ScanConfirmScreen() {
   const navigation = useNavigation<NavigationProp>();
+  const route = useRoute<ScanConfirmRouteProp>();
+  const { tiles } = route.params;
 
-  const handleNewCalculation = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'CalculateHome' }]
-      })
-    );
+  const handleConfirm = () => {
+    navigation.navigate('Results');
+  };
+
+  const handleEdit = () => {
+    navigation.navigate('Calculator', { initialTiles: tiles });
   };
 
   return (
     <View style={styles.container}>
       <Text type='title' style={styles.title}>
-        Results
+        Scanned Hand
+      </Text>
+      <Text style={styles.subtitle}>
+        Review detected tiles. Edit if any were misidentified.
       </Text>
 
-      <View style={styles.placeholder}>
-        <Text style={styles.placeholderText}>
-          Point calculation results will be displayed here
-        </Text>
-        <Text style={styles.placeholderSubtext}>
-          Han, Fu, Yaku, and payment breakdown
-        </Text>
+      <View style={styles.tilesContainer}>
+        <View style={styles.tilesWrap}>
+          {tiles.map((tileId, index) => (
+            <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
+              <Image source={TILES[tileId]} style={styles.tile} />
+            </View>
+          ))}
+        </View>
       </View>
 
       <View style={styles.buttonContainer}>
@@ -42,7 +53,7 @@ export default function ResultsScreen() {
             styles.secondaryButton,
             pressed && styles.buttonPressed
           ]}
-          onPress={() => navigation.navigate('Calculator')}>
+          onPress={handleEdit}>
           <Text style={styles.secondaryButtonText}>Edit Hand</Text>
         </Pressable>
 
@@ -52,46 +63,55 @@ export default function ResultsScreen() {
             styles.primaryButton,
             pressed && styles.buttonPressed
           ]}
-          onPress={handleNewCalculation}>
-          <Text style={styles.buttonText}>New</Text>
+          onPress={handleConfirm}>
+          <Text style={styles.buttonText}>Confirm</Text>
         </Pressable>
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
-    padding: 20,
-    gap: 20
+    padding: theme.spacing.base,
+    backgroundColor: theme.colors.background
   },
   title: {
     textAlign: 'center',
-    marginBottom: 20
+    marginBottom: theme.spacing.xs,
+    color: theme.colors.text
   },
-  placeholder: {
+  subtitle: {
+    textAlign: 'center',
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.textSecondary,
+    marginBottom: theme.spacing.base
+  },
+  tilesContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: '#999',
     borderRadius: 12,
-    padding: 40,
-    marginVertical: 20
+    padding: theme.spacing.base,
+    marginVertical: theme.spacing.base
   },
-  placeholderText: {
-    fontSize: 18,
-    fontWeight: '600',
-    opacity: 0.7,
-    textAlign: 'center',
-    marginBottom: 10
+  tilesWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 8
   },
-  placeholderSubtext: {
-    fontSize: 14,
-    opacity: 0.5,
-    textAlign: 'center'
+  tileWrapper: {
+    borderRadius: 6,
+    overflow: 'visible',
+    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.15)'
+  },
+  tile: {
+    width: 44,
+    height: 62,
+    resizeMode: 'contain'
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -133,4 +153,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 12
   }
-});
+}));
