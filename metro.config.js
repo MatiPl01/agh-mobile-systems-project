@@ -1,6 +1,8 @@
 const { getDefaultConfig, mergeConfig } = require('@react-native/metro-config');
 const path = require('path');
 
+const defaultConfig = getDefaultConfig(__dirname);
+
 /**
  * Metro configuration
  * https://reactnative.dev/docs/metro
@@ -12,8 +14,9 @@ const config = {
   resolver: {
     alias: {
       '@assets': path.resolve(__dirname, 'assets')
-    }
+    },
+    assetExts: ['tflite', ...defaultConfig?.resolver?.assetExts]
   }
 };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = mergeConfig(defaultConfig, config);

@@ -4,13 +4,16 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.7",
     "@react-native/new-app-screen": "0.82.1",
+    "@react-native/normalize-colors": "^0.82.1",
     "@react-navigation/bottom-tabs": "^7.8.5",
     "@react-navigation/native": "^7.1.20",
     "@react-navigation/native-stack": "^7.6.3",
+    "@shopify/react-native-skia": "2.2.0",
     "fuse.js": "^7.1.0",
     "react": "19.1.1",
     "react-native": "0.82.1",
     "react-native-edge-to-edge": "^1.7.0",
+    "react-native-fast-tflite": "^1.6.1",
     "react-native-gesture-handler": "^2.29.1",
     "react-native-nitro-modules": "^0.31.10",
     "react-native-reanimated": "^4.1.5",
@@ -19,9 +22,9 @@
     "react-native-unistyles": "^3.0.19",
     "react-native-vector-icons": "^10.3.0",
     "react-native-vision-camera": "^4.7.3",
-    "react-native-vision-camera-image-labeler": "^2.2.0",
     "react-native-worklets": "^0.6.1",
-    "react-native-worklets-core": "patch:react-native-worklets-core@npm%3A1.6.2#~/.yarn/patches/react-native-worklets-core-npm-1.6.2-2a74f8236d.patch"
+    "react-native-worklets-core": "1.6.2",
+    "vision-camera-resize-plugin": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

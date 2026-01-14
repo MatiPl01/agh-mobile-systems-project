@@ -23,6 +23,7 @@
 		198DEF15121E4EFC93645F54 /* Man9.svg in Resources */ = {isa = PBXBuildFile; fileRef = 528286BD4D04461B889DD5FD /* Man9.svg */; };
 		1AC95FEE23434B2AB38919AA /* Sou5-Dora.svg in Resources */ = {isa = PBXBuildFile; fileRef = 7E9A1439FF5D487080B74417 /* Sou5-Dora.svg */; };
 		1ED11CC946D44AB3A024072C /* Hatsu.png in Resources */ = {isa = PBXBuildFile; fileRef = 56C5250A711D4ABFB5AC4545 /* Hatsu.png */; };
+		1F8C2A6A2EDE791E00C49FC3 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F8C2A692EDE791E00C49FC3 /* CoreML.framework */; };
 		22C2A843B0A44BE68863FA9B /* Sou6.png in Resources */ = {isa = PBXBuildFile; fileRef = 27926FDFD05546FE92101060 /* Sou6.png */; };
 		244228C524DB49A4B339B7A3 /* Pin5.png in Resources */ = {isa = PBXBuildFile; fileRef = 2E1B73716BFF4999AC9B217E /* Pin5.png */; };
 		27C0C463EBC542E486D73192 /* Sou2.png in Resources */ = {isa = PBXBuildFile; fileRef = 64EF8C29165140E68B2F657E /* Sou2.png */; };
@@ -109,6 +110,7 @@
 		1D26FE8C6FF74B5390906EF2 /* Pei.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Pei.svg; path = ../assets/model/Black/Pei.svg; sourceTree = "<group>"; };
 		1EAB0FCAB9C7441D89207FFA /* Sou7.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Sou7.svg; path = ../assets/model/Black/Sou7.svg; sourceTree = "<group>"; };
 		1F05FBC745F6448C84B22F4F /* Blank.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Blank.svg; path = ../assets/model/Black/Blank.svg; sourceTree = "<group>"; };
+		1F8C2A692EDE791E00C49FC3 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
 		240487620DEC46C887361124 /* Man6.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Man6.svg; path = ../assets/model/Black/Man6.svg; sourceTree = "<group>"; };
 		272B11F6DBC54FE88B897FE6 /* Pei.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Pei.png; path = ../assets/images/tiles/Pei.png; sourceTree = "<group>"; };
 		27926FDFD05546FE92101060 /* Sou6.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Sou6.png; path = ../assets/images/tiles/Sou6.png; sourceTree = "<group>"; };
@@ -128,7 +130,7 @@
 		48F4C3C072854C4F935A6D0F /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		4C19D0446FC842BD8E465285 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		4CD3753C9EC54418ABA8BFD1 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
-		4E0FCDB41D454CE1B19EAC5D /* 1.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = 1.tflite; path = ../assets/model/1.tflite; sourceTree = "<group>"; };
+		4E0FCDB41D454CE1B19EAC5D /* 1.tflite */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = 1.tflite; path = ../assets/model/1.tflite; sourceTree = "<group>"; };
 		4EEF3BFB1D5047BDA71AB902 /* Man8.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Man8.svg; path = ../assets/model/Black/Man8.svg; sourceTree = "<group>"; };
 		528286BD4D04461B889DD5FD /* Man9.svg */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Man9.svg; path = ../assets/model/Black/Man9.svg; sourceTree = "<group>"; };
 		56C5250A711D4ABFB5AC4545 /* Hatsu.png */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Hatsu.png; path = ../assets/images/tiles/Hatsu.png; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F8C2A6A2EDE791E00C49FC3 /* CoreML.framework in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-RiichiMahjongCalculator.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +240,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1F8C2A692EDE791E00C49FC3 /* CoreML.framework */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-RiichiMahjongCalculator.a */,
 			);
@@ -388,7 +392,6 @@
 				5B66BF7D5DE544E49E045358 /* Ton.svg */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

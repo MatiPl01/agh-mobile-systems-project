@@ -32,3 +32,5 @@ target 'RiichiMahjongCalculator' do
     )
   end
 end
+
+$EnableCoreMLDelegate=true
