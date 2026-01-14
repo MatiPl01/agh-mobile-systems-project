@@ -61,31 +61,24 @@ export default function HandBuilder({
     hasMountedRef.current = true;
   }, []);
 
-  // Auto-expand when tiles are added, collapse to header state when empty
+  // Auto-expand when first tile is added, auto-scroll when more tiles added
   React.useEffect(() => {
     const prevLength = prevTilesLengthRef.current;
     prevTilesLengthRef.current = tiles.length;
 
-    if (tiles.length > 0 && bottomSheetRef.current) {
-      bottomSheetRef.current.snapToIndex(2); // Expand to full (index 2 = 350px)
-      // Auto-scroll to end only when tiles are ADDED after initial mount
-      if (
-        tiles.length > prevLength &&
-        hasMountedRef.current &&
-        prevLength > 0
-      ) {
+    if (tiles.length > prevLength && bottomSheetRef.current) {
+      // Expand when first tile is added (0 -> 1+)
+      if (prevLength === 0) {
+        bottomSheetRef.current.snapToIndex(2);
+      }
+      // Auto-scroll to end only when adding to existing tiles
+      if (hasMountedRef.current && prevLength > 0) {
         setTimeout(() => {
           scrollViewRef.current?.scrollToEnd({ animated: true });
         }, 100);
       }
-    } else if (
-      tiles.length === 0 &&
-      bottomSheetRef.current &&
-      !initiallyExpanded
-    ) {
-      bottomSheetRef.current.snapToIndex(1); // Collapse to header state (index 1 = 120px)
     }
-  }, [tiles.length, initiallyExpanded]);
+  }, [tiles.length]);
 
   const handleTilePress = (index: number) => {
     if (removalMode) {
@@ -241,7 +234,7 @@ export default function HandBuilder({
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={2}
+      index={initiallyExpanded ? 2 : 1}
       snapPoints={snapPoints}
       onChange={handleSheetChange}
       enablePanDownToClose={false}

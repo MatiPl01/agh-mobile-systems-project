@@ -13,7 +13,7 @@ export type CalculateStackParamList = {
   Scanner: undefined;
   ScanConfirm: { tiles: TileId[] };
   Calculator: { initialTiles?: TileId[] } | undefined;
-  Results: undefined;
+  Results: { tiles: TileId[] };
 };
 
 const Stack = createNativeStackNavigator<CalculateStackParamList>();
