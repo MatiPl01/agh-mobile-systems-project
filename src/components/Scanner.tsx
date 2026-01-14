@@ -20,10 +20,7 @@ export default function Scanner() {
   const { hasPermission, requestPermission } = useCameraPermission();
 
   const delegate = Platform.OS === 'ios' ? 'core-ml' : undefined;
-  const plugin = useTensorflowModel(
-    require('../assets/model.tflite'),
-    delegate
-  );
+  const plugin = useTensorflowModel(require('@/assets/model.tflite'), delegate);
 
   const { resize } = useResizePlugin();
 

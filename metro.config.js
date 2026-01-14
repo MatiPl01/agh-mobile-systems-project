@@ -10,14 +10,12 @@ const defaultConfig = getDefaultConfig(__dirname);
  * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
-  resolver: {
-    assetExts: ['tflite', ...defaultConfig?.resolver?.assetExts]
-  },
   watchFolders: [path.resolve(__dirname, 'assets')],
   resolver: {
     alias: {
       '@assets': path.resolve(__dirname, 'assets')
-    }
+    },
+    assetExts: ['tflite', ...defaultConfig?.resolver?.assetExts]
   }
 };
 
