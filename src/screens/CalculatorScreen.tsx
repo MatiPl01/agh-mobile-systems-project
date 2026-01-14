@@ -9,7 +9,7 @@ import {
   type RouteProp
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
@@ -45,7 +45,10 @@ export default function CalculatorScreen() {
 
   const handleCalculate = () => {
     if (tiles.length === 14) {
-      navigation.replace('Results', { tiles });
+      navigation.replace('Results', {
+        tiles,
+        historyId: route.params?.historyId
+      });
     }
   };
 

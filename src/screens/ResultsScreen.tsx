@@ -1,4 +1,5 @@
 import { Text, View } from '@/components';
+import { useHistory } from '@/hooks/useHistory';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import { getMockScoringResult } from '@/utils/scoring';
 import { TILES } from '@assets/images/tiles';
@@ -9,7 +10,7 @@ import {
   type RouteProp
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Image, Pressable, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
@@ -21,6 +22,20 @@ export default function ResultsScreen() {
   const route = useRoute<ResultsRouteProp>();
   const tiles = route.params.tiles;
   const result = useMemo(() => getMockScoringResult(), []);
+  const { addItem, updateItem } = useHistory();
+  const savedRef = useRef(false);
+
+  // Auto-save or update history once when screen loads
+  useEffect(() => {
+    if (!savedRef.current) {
+      if (route.params.historyId) {
+        updateItem(route.params.historyId, tiles, result);
+      } else {
+        addItem(tiles, result);
+      }
+      savedRef.current = true;
+    }
+  }, [tiles, result, addItem, updateItem, route.params.historyId]);
 
   const handleNewCalculation = () => {
     navigation.dispatch(
