@@ -45,7 +45,7 @@ export default function CalculatorScreen() {
 
   const handleCalculate = () => {
     if (tiles.length === 14) {
-      navigation.navigate('Results');
+      navigation.replace('Results', { tiles });
     }
   };
 

@@ -20,7 +20,7 @@ export default function ScanConfirmScreen() {
   const { tiles } = route.params;
 
   const handleConfirm = () => {
-    navigation.navigate('Results');
+    navigation.navigate('Results', { tiles });
   };
 
   const handleEdit = () => {
