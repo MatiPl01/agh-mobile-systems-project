@@ -4,7 +4,7 @@ import { getTileCounts, HAND_SIZE } from '@/utils/hand';
 import type { TileId } from '@assets/images/tiles';
 import { TILES } from '@assets/images/tiles';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Image, Pressable, ScrollView } from 'react-native';
 import Animated, {
   FadeIn,
@@ -20,6 +20,7 @@ type HandBuilderProps = {
   onUpdateMelds: (melds: Meld[]) => void;
   onClearAll: () => void;
   onCalculate?: () => void;
+  initiallyExpanded?: boolean;
 };
 
 export default function HandBuilder({
@@ -28,7 +29,8 @@ export default function HandBuilder({
   onRemoveTile,
   onUpdateMelds,
   onClearAll,
-  onCalculate
+  onCalculate,
+  initiallyExpanded = false
 }: HandBuilderProps) {
   const styles = stylesheet;
   const [groupingMode, setGroupingMode] = useState(false);
@@ -43,13 +45,38 @@ export default function HandBuilder({
   const snapPoints = [60, 120, 350];
 
   const bottomSheetRef = React.useRef<BottomSheet>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const prevTilesLengthRef = useRef(tiles.length);
+  const hasMountedRef = useRef(false);
 
-  // Auto-expand when tiles are added, collapse when empty
+  // Expand on mount if initiallyExpanded is true
   React.useEffect(() => {
-    if (tiles.length > 0 && bottomSheetRef.current) {
-      bottomSheetRef.current.snapToIndex(2); // Expand to full (index 2 = 350px)
-    } else if (tiles.length === 0 && bottomSheetRef.current) {
-      bottomSheetRef.current.snapToIndex(0); // Collapse to just header (index 0 = 60px)
+    if (initiallyExpanded && bottomSheetRef.current) {
+      bottomSheetRef.current.snapToIndex(2);
+    }
+  }, [initiallyExpanded]);
+
+  // Mark as mounted after first render
+  React.useEffect(() => {
+    hasMountedRef.current = true;
+  }, []);
+
+  // Auto-expand when first tile is added, auto-scroll when more tiles added
+  React.useEffect(() => {
+    const prevLength = prevTilesLengthRef.current;
+    prevTilesLengthRef.current = tiles.length;
+
+    if (tiles.length > prevLength && bottomSheetRef.current) {
+      // Expand when first tile is added (0 -> 1+)
+      if (prevLength === 0) {
+        bottomSheetRef.current.snapToIndex(2);
+      }
+      // Auto-scroll to end only when adding to existing tiles
+      if (hasMountedRef.current && prevLength > 0) {
+        setTimeout(() => {
+          scrollViewRef.current?.scrollToEnd({ animated: true });
+        }, 100);
+      }
     }
   }, [tiles.length]);
 
@@ -195,13 +222,21 @@ export default function HandBuilder({
     }
   };
 
+  const handleSheetChange = (index: number) => {
+    // Prevent closing below index 1 (header state)
+    if (index === 0) {
+      bottomSheetRef.current?.snapToIndex(1);
+    }
+  };
+
   const tileCounts = getTileCounts(tiles);
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      index={0}
+      index={initiallyExpanded ? 2 : 1}
       snapPoints={snapPoints}
+      onChange={handleSheetChange}
       enablePanDownToClose={false}
       enableContentPanningGesture={false}
       enableHandlePanningGesture={true}
@@ -250,8 +285,9 @@ export default function HandBuilder({
             </Animated.View>
           ) : (
             <ScrollView
+              ref={scrollViewRef}
               horizontal
-              showsHorizontalScrollIndicator={true}
+              showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.tilesContainer}
               style={styles.tilesScrollView}
               nestedScrollEnabled={true}>
@@ -269,9 +305,9 @@ export default function HandBuilder({
                 return (
                   <Animated.View
                     key={`${tileId}-${index}`}
-                    entering={FadeIn.duration(200)}
-                    exiting={FadeOut.duration(150)}
-                    layout={LinearTransition}>
+                    layout={LinearTransition.springify()
+                      .damping(18)
+                      .stiffness(150)}>
                     <Pressable
                       onPress={() => handleTilePress(index)}
                       style={({ pressed }) => [
@@ -606,13 +642,13 @@ const stylesheet = StyleSheet.create(theme => ({
   },
   tilesScrollView: {
     flexGrow: 0,
-    flexShrink: 0,
-    paddingHorizontal: theme.spacing.lg
+    flexShrink: 0
   },
   tilesContainer: {
     gap: theme.spacing.xs,
     paddingVertical: theme.spacing.xs,
-    paddingBottom: theme.spacing.sm + 20, // Extra padding for ungroup hints, reduced gap
+    paddingHorizontal: theme.spacing.lg,
+    paddingBottom: theme.spacing.sm + 20,
     flexGrow: 0
   },
   tileWrapper: {

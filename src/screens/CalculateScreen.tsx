@@ -1,12 +1,18 @@
 import { Text, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
+import type { RootTabParamList } from '@/navigation/RootNavigator';
+import type { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import type { CompositeNavigationProp } from '@react-navigation/native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
+type NavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<CalculateStackParamList>,
+  BottomTabNavigationProp<RootTabParamList>
+>;
 
 export default function CalculateScreen() {
   const navigation = useNavigation<NavigationProp>();
@@ -41,13 +47,13 @@ export default function CalculateScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    gap: 30
+    gap: 12
   },
   title: {
     textAlign: 'center',
@@ -74,7 +80,7 @@ const styles = StyleSheet.create({
     opacity: 0.8
   },
   buttonText: {
-    backgroundColor: '#007AFF',
+    backgroundColor: theme.colors.primary,
     color: '#FFFFFF',
     paddingVertical: 16,
     paddingHorizontal: 32,
@@ -83,4 +89,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     borderRadius: 12
   }
-});
+}));
