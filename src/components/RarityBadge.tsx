@@ -13,7 +13,6 @@ export default function RarityBadge({
   rarity,
   size = 'small'
 }: RarityBadgeProps) {
-  const styles = stylesheet;
   const backgroundColor = getRarityColor(rarity);
 
   return (
@@ -31,14 +30,14 @@ export default function RarityBadge({
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   badgeContainer: {
     alignSelf: 'flex-start'
   },
   badge: {
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs / 2,
-    borderRadius: 999, // Fully rounded
+    borderRadius: theme.borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center'
   },

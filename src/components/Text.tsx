@@ -11,7 +11,6 @@ export function Text({ variant, type, color, style, ...rest }: TextProps) {
   const { theme } = useUnistyles();
   const textVariant = variant || type || 'default';
   const textColor = color ? theme.colors[color] : theme.colors.text;
-  const styles = stylesheet;
 
   return (
     <RNText
@@ -21,7 +20,7 @@ export function Text({ variant, type, color, style, ...rest }: TextProps) {
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   default: {
     fontSize: theme.typography.sizes.base,
     lineHeight: theme.typography.lineHeights.base,

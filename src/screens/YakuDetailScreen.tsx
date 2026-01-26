@@ -13,7 +13,7 @@ type YakuDetailRouteProp = RouteProp<YakuStackParamList, 'YakuDetail'>;
 export default function YakuDetailScreen() {
   const route = useRoute<YakuDetailRouteProp>();
   const { yakuId } = route.params;
-  const styles = stylesheet;
+
   const yaku = getYakuById(yakuId);
 
   if (!yaku) {
@@ -36,40 +36,37 @@ export default function YakuDetailScreen() {
       <ScrollView
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View style={styles.titleContainer}>
-            <Text type='title' style={styles.title}>
-              {yaku.name}
-            </Text>
-            <Text style={styles.nameJp}>{yaku.nameJp}</Text>
-            <Text style={styles.nameEn}>{yaku.nameEn}</Text>
+        <View>
+          <View style={styles.header}>
+            <View style={styles.titleContainer}>
+              <Text type='title' style={styles.title}>
+                {yaku.name}
+              </Text>
+              <Text style={styles.nameJp}>{yaku.nameJp}</Text>
+              <Text style={styles.nameEn}>{yaku.nameEn}</Text>
+            </View>
+            <View style={styles.hanBadgeContainer}>
+              <HanBadge yaku={yaku} />
+            </View>
           </View>
-          <HanBadge yaku={yaku} />
-        </View>
 
-        <View style={styles.badgesRow}>
-          <View style={styles.categoryBadge}>
-            <Text style={styles.categoryText}>{yaku.category}</Text>
+          <View style={styles.badgesRow}>
+            <View style={styles.categoryBadge}>
+              <Text style={styles.categoryText}>{yaku.category}</Text>
+            </View>
+            {yaku.rarity && <RarityBadge rarity={yaku.rarity} size='medium' />}
           </View>
-          {yaku.rarity && <RarityBadge rarity={yaku.rarity} size='medium' />}
         </View>
 
         {yaku.exampleTiles && yaku.exampleTiles.length > 0 && (
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Example Tiles</Text>
             <View style={styles.tilesContainer}>
-              {yaku.exampleTiles.map((tileId, index) => {
-                const tileImage = TILES[tileId];
-                if (!tileImage) return null;
-                return (
-                  <Image
-                    key={`${yaku.id}-${tileId}-${index}`}
-                    source={tileImage}
-                    style={styles.tileImage}
-                    resizeMode='contain'
-                  />
-                );
-              })}
+              {yaku.exampleTiles.map((tileId, index) => (
+                <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
+                  <Image source={TILES[tileId]} style={styles.tileImage} />
+                </View>
+              ))}
             </View>
           </View>
         )}
@@ -125,7 +122,7 @@ export default function YakuDetailScreen() {
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1
   },
@@ -148,6 +145,9 @@ const stylesheet = StyleSheet.create(theme => ({
     fontSize: theme.typography.sizes['2xl'],
     fontWeight: '700',
     color: theme.colors.text
+  },
+  hanBadgeContainer: {
+    marginTop: 6
   },
   nameJp: {
     fontSize: theme.typography.sizes.base,
@@ -193,8 +193,7 @@ const stylesheet = StyleSheet.create(theme => ({
   descriptionText: {
     fontSize: theme.typography.sizes.base,
     color: theme.colors.text,
-    lineHeight: theme.typography.lineHeights.base,
-    paddingHorizontal: theme.spacing.xs
+    lineHeight: theme.typography.lineHeights.base
   },
   conditionItem: {
     flexDirection: 'row',
@@ -254,12 +253,20 @@ const stylesheet = StyleSheet.create(theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
-    gap: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.xs
+    marginTop: theme.spacing.xs,
+    marginBottom: theme.spacing.xs,
+    gap: theme.spacing.xs
+  },
+  tileWrapper: {
+    borderRadius: 6,
+    paddingHorizontal: 3,
+    paddingVertical: 4,
+    borderWidth: 1,
+    borderColor: theme.colors.border
   },
   tileImage: {
-    width: 32,
-    height: 44
+    width: 27,
+    height: 36
   },
   errorText: {
     fontSize: theme.typography.sizes.base,

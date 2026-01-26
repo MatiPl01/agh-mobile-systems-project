@@ -1,18 +1,17 @@
-import type { TileId } from '@assets/images/tiles';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import CalculateScreen from '@/screens/CalculateScreen';
+import CalculateHomeScreen from '@/screens/CalculateHomeScreen';
 import CalculatorScreen from '@/screens/CalculatorScreen';
-import ResultsScreen from '@/screens/ResultsScreen';
-import ScanConfirmScreen from '@/screens/ScanConfirmScreen';
+import ConfirmScreen from '@/screens/ConfirmScreen';
+import ResultScreen from '@/screens/ResultScreen';
 import ScannerScreen from '@/screens/ScannerScreen';
+import { Hand } from '@/types/hand';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 export type CalculateStackParamList = {
   CalculateHome: undefined;
   Scanner: undefined;
-  ScanConfirm: { tiles: TileId[] };
-  Calculator: { initialTiles?: TileId[]; historyId?: string } | undefined;
-  Results: { tiles: TileId[]; historyId?: string };
+  Confirm: { hand: Hand };
+  Calculator: { initialHand?: Hand; historyId?: string } | undefined;
+  Result: { hand: Hand; historyId?: string };
 };
 
 const Stack = createNativeStackNavigator<CalculateStackParamList>();
@@ -26,7 +25,7 @@ export default function CalculateStackNavigator() {
       }}>
       <Stack.Screen
         name='CalculateHome'
-        component={CalculateScreen}
+        component={CalculateHomeScreen}
         options={{ title: 'Calculate Points' }}
       />
       <Stack.Screen
@@ -35,9 +34,9 @@ export default function CalculateStackNavigator() {
         options={{ title: 'Scan Board' }}
       />
       <Stack.Screen
-        name='ScanConfirm'
-        component={ScanConfirmScreen}
-        options={{ title: 'Confirm Scan' }}
+        name='Confirm'
+        component={ConfirmScreen}
+        options={{ title: 'Confirm Hand' }}
       />
       <Stack.Screen
         name='Calculator'
@@ -45,9 +44,9 @@ export default function CalculateStackNavigator() {
         options={{ title: 'Hand Editor' }}
       />
       <Stack.Screen
-        name='Results'
-        component={ResultsScreen}
-        options={{ title: 'Results' }}
+        name='Result'
+        component={ResultScreen}
+        options={{ title: 'Result' }}
       />
     </Stack.Navigator>
   );

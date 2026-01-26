@@ -1,3 +1,5 @@
+import { TileId } from '@/types/hand';
+
 // Man (Characters) tiles
 // 'm' = Man (萬, characters/numbers written in kanji)
 import tile1m from './Man1.png'; // '1m' = 1 of Man (一萬)
@@ -35,55 +37,17 @@ import tile8s from './Sou8.png'; // '8s' = 8 of Sou (八索)
 import tile9s from './Sou9.png'; // '9s' = 9 of Sou (九索)
 
 // Winds
-import tileEw from './Ton.png'; // 'ew' = East Wind (Ton 東)
 import tileSw from './Nan.png'; // 'sw' = South Wind (Nan 南)
-import tileWw from './Shaa.png'; // 'ww' = West Wind (Shaa 西)
 import tileNw from './Pei.png'; // 'nw' = North Wind (Pei 北)
+import tileWw from './Shaa.png'; // 'ww' = West Wind (Shaa 西)
+import tileEw from './Ton.png'; // 'ew' = East Wind (Ton 東)
 
 // Dragons
 import tileRd from './Chun.png'; // 'rd' = Red Dragon (Chun 中)
 import tileWd from './Haku.png'; // 'wd' = White Dragon (Haku 白)
 import tileGd from './Hatsu.png'; // 'gd' = Green Dragon (Hatsu 發)
 
-export type TileId =
-  | '1m'
-  | '2m'
-  | '3m'
-  | '4m'
-  | '5m'
-  | '6m'
-  | '7m'
-  | '8m'
-  | '9m'
-  | '1p'
-  | '2p'
-  | '3p'
-  | '4p'
-  | '5p'
-  | '6p'
-  | '7p'
-  | '8p'
-  | '9p'
-  | '1s'
-  | '2s'
-  | '3s'
-  | '4s'
-  | '5s'
-  | '6s'
-  | '7s'
-  | '8s'
-  | '9s'
-  | 'ew'
-  | 'sw'
-  | 'ww'
-  | 'nw'
-  | 'wd'
-  | 'gd'
-  | 'rd';
-
-/**
- * Mapping of tile IDs to their imported image assets
- */
+// Export all tiles as a mapping from TileId to image asset
 export const TILES: Record<TileId, number> = {
   '1m': tile1m,
   '2m': tile2m,

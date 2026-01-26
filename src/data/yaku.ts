@@ -15,7 +15,7 @@
  * - 40 total entries: 26 regular yaku + 13 yakuman + 1 special (nagashi mangan)
  */
 
-import type { TileId } from '@assets/images/tiles';
+import { TileId } from '@/types/hand';
 
 export type YakuType = 'regular' | 'yakuman';
 export type Rarity =
@@ -46,9 +46,9 @@ export interface Yaku {
 
 export const yakuList: Yaku[] = [
   {
-    id: 'menzenchin_tsumohou',
+    id: 'menzentsumo',
     name: 'Menzenchin tsumohou',
-    nameEn: 'Self-draw on closed hand',
+    nameEn: 'Fully concealed hand',
     nameJp: '門前清自摸和',
     han: 1,
     hanClosed: 1,
@@ -326,7 +326,7 @@ export const yakuList: Yaku[] = [
     openHand: 'closed'
   },
   {
-    id: 'chantaiyao',
+    id: 'chanta',
     name: 'Chantaiyao',
     nameEn: 'Terminal or honor in each set',
     nameJp: '全帯幺九',
@@ -347,7 +347,7 @@ export const yakuList: Yaku[] = [
     openHand: 'both'
   },
   {
-    id: 'sanshoku_doujun',
+    id: 'sanshoku',
     name: 'Sanshoku doujun',
     nameEn: 'Three-colored straight',
     nameJp: '三色同順',

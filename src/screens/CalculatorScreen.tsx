@@ -1,8 +1,7 @@
-import { HandBuilder, Text, TileSelector, View } from '@/components';
+import { HandBuilder, TileSelector, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
-import type { Meld } from '@/types/hand';
-import { addTile, canAddTile, getTileCounts, removeTile } from '@/utils/hand';
-import type { TileId } from '@assets/images/tiles';
+import type { Hand } from '@/types/hand';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import {
   useNavigation,
   useRoute,
@@ -10,6 +9,7 @@ import {
 } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useEffect, useState } from 'react';
+import { useSharedValue } from 'react-native-reanimated';
 import { StyleSheet } from 'react-native-unistyles';
 
 type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
@@ -18,94 +18,66 @@ type CalculatorRouteProp = RouteProp<CalculateStackParamList, 'Calculator'>;
 export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<CalculatorRouteProp>();
-  const styles = stylesheet;
-  const [tiles, setTiles] = useState<TileId[]>([]);
-  const [melds, setMelds] = useState<Meld[]>([]);
+
+  const [hand, setHand] = useState<Hand>({ closedPart: [], openPart: [] });
+
+  const snapPoints = [84];
+  const bottomSheetHeight = useSharedValue(0);
 
   useEffect(() => {
-    if (route.params?.initialTiles) {
-      setTiles(route.params.initialTiles);
+    if (route.params?.initialHand) {
+      setHand(route.params.initialHand);
     }
-  }, [route.params?.initialTiles]);
-
-  const handleTilePress = (tileId: TileId) => {
-    if (canAddTile(tiles, tileId)) {
-      setTiles(addTile(tiles, tileId));
-    }
-  };
-
-  const handleRemoveTile = (index: number) => {
-    setTiles(removeTile(tiles, index));
-  };
-
-  const handleClearAll = () => {
-    setTiles([]);
-    setMelds([]);
-  };
+  }, [route.params?.initialHand]);
 
   const handleCalculate = () => {
-    if (tiles.length === 14) {
-      navigation.replace('Results', {
-        tiles,
-        historyId: route.params?.historyId
-      });
-    }
+    navigation.replace('Confirm', { hand });
   };
-
-  const selectedCounts = getTileCounts(tiles);
-  const canSelectMore = tiles.length < 14;
-
-  const isEditingFromScan = !!route.params?.initialTiles;
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.subtitle}>
-          {isEditingFromScan
-            ? 'Adjust tiles if needed'
-            : 'Select tiles to build your hand'}
-        </Text>
-      </View>
-
-      <View style={styles.tileSelectorContainer}>
-        <TileSelector
-          onTilePress={handleTilePress}
-          selectedCounts={selectedCounts}
-          canSelectMore={canSelectMore}
-        />
-      </View>
-
-      <HandBuilder
-        tiles={tiles}
-        melds={melds}
-        onRemoveTile={handleRemoveTile}
-        onUpdateMelds={setMelds}
-        onClearAll={handleClearAll}
-        onCalculate={handleCalculate}
-        initiallyExpanded={isEditingFromScan}
+      <TileSelector
+        hand={hand}
+        onHandChange={setHand}
+        bottomSheetHeight={bottomSheetHeight}
       />
+      <BottomSheet
+        index={1}
+        snapPoints={snapPoints}
+        handleIndicatorStyle={styles.handleIndicator}
+        style={styles.bottomSheet}>
+        <BottomSheetView>
+          <HandBuilder
+            hand={hand}
+            onHandChange={setHand}
+            onCalculate={handleCalculate}
+            bottomSheetHeight={bottomSheetHeight}
+          />
+        </BottomSheetView>
+      </BottomSheet>
     </View>
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background
   },
-  header: {
-    padding: theme.spacing.base,
-    paddingBottom: theme.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.border
+  bottomSheet: {
+    marginHorizontal: 0,
+    backgroundColor: theme.colors.background,
+    borderRadius: theme.borderRadius.lg,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
   },
-  subtitle: {
-    textAlign: 'center',
-    fontSize: theme.typography.sizes.sm,
-    color: theme.colors.textSecondary
-  },
-  tileSelectorContainer: {
-    flex: 1,
-    minHeight: 200
+  handleIndicator: {
+    width: 60
   }
 }));

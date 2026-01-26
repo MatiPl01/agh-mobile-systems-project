@@ -18,8 +18,6 @@ export default function FilterChip({
   onPress,
   rarity
 }: FilterChipProps) {
-  const styles = stylesheet;
-
   const getActiveStyle = () => {
     if (rarity && isActive) {
       return {
@@ -40,7 +38,7 @@ export default function FilterChip({
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   chip: {
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: theme.spacing.xs / 2,

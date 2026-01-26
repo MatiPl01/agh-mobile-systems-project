@@ -1,4 +1,5 @@
 import RootNavigator from '@/navigation/RootNavigator';
+import { TensorflowModelProvider } from '@/providers/TensorflowModelProvider';
 import {
   DarkTheme,
   DefaultTheme,
@@ -21,13 +22,15 @@ function AppContent() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
-          <StatusBar
-            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            backgroundColor={theme.colors.background}
-          />
-          <RootNavigator />
-        </ThemeProvider>
+        <TensorflowModelProvider>
+          <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+              backgroundColor={theme.colors.background}
+            />
+            <RootNavigator />
+          </ThemeProvider>
+        </TensorflowModelProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

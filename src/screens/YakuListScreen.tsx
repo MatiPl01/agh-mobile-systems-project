@@ -22,7 +22,6 @@ type YakuSection = {
 
 export default function YakuListScreen() {
   const navigation = useNavigation<NavigationProp>();
-  const styles = stylesheet;
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterState>({
     rarity: null,
@@ -174,7 +173,7 @@ export default function YakuListScreen() {
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1,
     backgroundColor: theme.colors.background
