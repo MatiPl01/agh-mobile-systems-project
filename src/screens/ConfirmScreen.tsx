@@ -94,9 +94,7 @@ export default function ConfirmScreen() {
               </Pressable>
             ))}
           </ScrollView>
-          {winningTileIndex === null && (
-            <Text style={styles.guideText}>Tap the winning tile</Text>
-          )}
+          <Text style={styles.guideText}>Tap the winning tile</Text>
         </View>
 
         {hand.openPart.length > 0 && (
