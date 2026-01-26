@@ -23,7 +23,6 @@ export default function YakuFilters({
   onCategoryToggle,
   onClearAll
 }: YakuFiltersProps) {
-  const styles = stylesheet;
   const hasActiveFilters = filters.rarity || filters.type || filters.category;
 
   return (
@@ -96,7 +95,7 @@ export default function YakuFilters({
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     backgroundColor: theme.colors.backgroundSecondary,
     borderBottomWidth: 1,

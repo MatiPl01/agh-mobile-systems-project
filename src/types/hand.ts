@@ -1,20 +1,64 @@
-import type { TileId } from '@assets/images/tiles';
+import { Riichi } from 'riichi-ts';
 
-export type MeldType = 'sequence' | 'triplet' | 'quad' | 'pair';
+export type TileId =
+  | '1m'
+  | '2m'
+  | '3m'
+  | '4m'
+  | '5m'
+  | '6m'
+  | '7m'
+  | '8m'
+  | '9m'
+  | '1p'
+  | '2p'
+  | '3p'
+  | '4p'
+  | '5p'
+  | '6p'
+  | '7p'
+  | '8p'
+  | '9p'
+  | '1s'
+  | '2s'
+  | '3s'
+  | '4s'
+  | '5s'
+  | '6s'
+  | '7s'
+  | '8s'
+  | '9s'
+  | 'ew'
+  | 'sw'
+  | 'ww'
+  | 'nw'
+  | 'wd'
+  | 'gd'
+  | 'rd';
 
-export interface Meld {
-  id: string;
-  type: MeldType;
-  tiles: TileId[]; // Tile types in the meld
-  tileIndices: number[]; // Specific indices of tiles in the meld (for tracking which instances)
-  isOpen: boolean; // Whether the meld was called (open) or concealed
-}
+export type WinType = 'tsumo' | 'ron';
 
-export interface Hand {
-  tiles: TileId[]; // Flat list of all tiles (up to 14)
-  melds: Meld[]; // Organized melds (optional, can be auto-detected later)
-  winningTile?: TileId; // The tile that completes the hand
-  isOpen: boolean; // Whether hand has any open melds
-}
+export type Wind = 'ew' | 'sw' | 'ww' | 'nw';
+
+export type Hand = {
+  // Closed part of the hand. Taken tile from the wall should be the last here in case of tsumo.
+  closedPart: TileId[];
+  // Open part of the hand
+  openPart: Array<{
+    open: boolean; // set open: false to mark closed kan (ankan)
+    tiles: TileId[];
+  }>;
+  options?: {
+    winningTileIndex: number;
+    winType: WinType;
+    roundWind: Wind;
+    seatWind: Wind;
+    riichi: boolean;
+    ippatsu: boolean;
+    doubleRiichi: boolean;
+  };
+};
+
+export type HandPoints = Riichi['tmpResult'];
 
 export type TileCount = Record<TileId, number>;

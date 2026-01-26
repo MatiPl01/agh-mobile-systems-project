@@ -8,7 +8,6 @@ type HanBadgeProps = {
 };
 
 export default function HanBadge({ yaku }: HanBadgeProps) {
-  const styles = stylesheet;
   const hanDisplay =
     yaku.han === 'yakuman'
       ? '役満'
@@ -27,7 +26,7 @@ export default function HanBadge({ yaku }: HanBadgeProps) {
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   badge: {
     backgroundColor: '#6366F1', // Indigo for regular han
     paddingHorizontal: theme.spacing.base,

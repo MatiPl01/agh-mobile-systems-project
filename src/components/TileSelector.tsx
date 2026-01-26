@@ -1,17 +1,16 @@
 import { Text, View } from '@/components';
-import type { TileId } from '@assets/images/tiles';
+import { Hand, TileId } from '@/types/hand';
+import { addClosedPartTile, getHandTileCounts } from '@/utils/hand';
 import { TILES } from '@assets/images/tiles';
 import React from 'react';
-import { Image, Pressable, ScrollView } from 'react-native';
+import { Image, Pressable } from 'react-native';
+import Animated, {
+  SharedValue,
+  useAnimatedStyle
+} from 'react-native-reanimated';
 import { StyleSheet } from 'react-native-unistyles';
 
-type TileSelectorProps = {
-  onTilePress: (tileId: TileId) => void;
-  selectedCounts: Record<TileId, number>;
-  canSelectMore: boolean;
-};
-
-const TILE_GROUPS: { title: string; tiles: TileId[] }[] = [
+const TILE_GROUPS = [
   {
     title: 'Man (Characters)',
     tiles: ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m']
@@ -32,25 +31,41 @@ const TILE_GROUPS: { title: string; tiles: TileId[] }[] = [
     title: 'Dragons',
     tiles: ['wd', 'gd', 'rd']
   }
-];
+] as const satisfies { title: string; tiles: TileId[] }[];
+
+type TileSelectorProps = {
+  hand: Hand;
+  onHandChange: (newHand: Hand) => void;
+  bottomSheetHeight: SharedValue<number>;
+};
 
 export default function TileSelector({
-  onTilePress,
-  selectedCounts,
-  canSelectMore
+  hand,
+  onHandChange,
+  bottomSheetHeight
 }: TileSelectorProps) {
-  const styles = stylesheet;
+  const canSelectMore = true;
+  const selectedCounts = getHandTileCounts(hand);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    height: bottomSheetHeight.value
+  }));
+
+  const onTilePress = (tileId: TileId) => {
+    if ((selectedCounts[tileId] || 0) >= 4) return;
+
+    const newHand = addClosedPartTile(hand, tileId);
+    onHandChange(newHand);
+  };
 
   return (
-    <ScrollView
+    <Animated.ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}>
       {TILE_GROUPS.map(group => (
         <View key={group.title} style={styles.group}>
-          <View style={styles.groupHeader}>
-            <Text style={styles.groupTitle}>{group.title}</Text>
-          </View>
+          <Text style={styles.groupTitle}>{group.title}</Text>
           <View style={styles.tileGrid}>
             {group.tiles.map(tileId => {
               const count = selectedCounts[tileId] || 0;
@@ -72,11 +87,7 @@ export default function TileSelector({
                       !isMaxed &&
                       styles.tileButtonPressed
                   ]}>
-                  <Image
-                    source={TILES[tileId]}
-                    style={styles.tileImage}
-                    resizeMode='contain'
-                  />
+                  <Image source={TILES[tileId]} style={styles.tileImage} />
                   {count > 0 && (
                     <View style={styles.countBadge}>
                       <Text style={styles.countText}>{count}</Text>
@@ -88,24 +99,21 @@ export default function TileSelector({
           </View>
         </View>
       ))}
-    </ScrollView>
+      <Animated.View style={animatedStyle} />
+    </Animated.ScrollView>
   );
 }
 
-const stylesheet = StyleSheet.create(theme => ({
+const styles = StyleSheet.create(theme => ({
   container: {
     flex: 1
   },
   content: {
     padding: theme.spacing.base,
-    paddingBottom: 450, // Extra padding for last row and expanded bottom sheet (400px + some margin)
     gap: theme.spacing.lg
   },
   group: {
-    gap: theme.spacing.sm
-  },
-  groupHeader: {
-    paddingHorizontal: theme.spacing.xs
+    gap: theme.spacing.xs
   },
   groupTitle: {
     fontSize: theme.typography.sizes.sm,
@@ -118,16 +126,13 @@ const stylesheet = StyleSheet.create(theme => ({
     gap: theme.spacing.xs
   },
   tileButton: {
-    width: 50,
-    height: 70,
     borderRadius: theme.borderRadius.base,
-    backgroundColor: theme.colors.backgroundSecondary,
+    paddingHorizontal: 6,
+    paddingVertical: 8,
     borderWidth: 2,
     borderColor: theme.colors.border,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    overflow: 'hidden'
+    backgroundColor: theme.colors.backgroundSecondary,
+    position: 'relative'
   },
   tileButtonSelected: {
     borderColor: theme.colors.primary,
@@ -145,24 +150,25 @@ const stylesheet = StyleSheet.create(theme => ({
     opacity: 0.7
   },
   tileImage: {
-    width: 40,
-    height: 56
+    width: 32,
+    height: 44,
+    resizeMode: 'contain'
   },
   countBadge: {
     position: 'absolute',
-    top: 4,
-    right: 4,
+    top: 2,
+    right: 2,
     backgroundColor: theme.colors.primary,
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
+    borderRadius: theme.borderRadius.full,
+    width: 18,
+    height: 18,
     justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 4
+    alignItems: 'center'
   },
   countText: {
     fontSize: theme.typography.sizes.xs,
     fontWeight: '700',
-    color: '#FFFFFF'
+    color: theme.colors.background,
+    lineHeight: 0
   }
 }));
