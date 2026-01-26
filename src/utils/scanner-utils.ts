@@ -1,6 +1,6 @@
 import { Detection } from '@/types/detection';
 import { Hand, TileId } from '@/types/hand';
-import { isValidHand } from './hand';
+import { isValidHand, sortHandTiles } from './hand';
 
 export function getDetectionsFromTensor(
   outputTensor: any,
@@ -225,5 +225,5 @@ export function getDetectedHand(uniqueDetections: Detection[]): Hand | null {
   // Validate the hand structure
   const isValid = isValidHand(hand);
 
-  return isValid ? hand : null;
+  return isValid ? sortHandTiles(hand) : null;
 }

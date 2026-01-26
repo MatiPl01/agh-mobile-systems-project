@@ -1,6 +1,7 @@
 import { HandBuilder, TileSelector, View } from '@/components';
 import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
 import type { Hand } from '@/types/hand';
+import { createEmptyHand, sortHandTiles } from '@/utils/hand';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import {
   useNavigation,
@@ -19,7 +20,9 @@ export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<CalculatorRouteProp>();
 
-  const [hand, setHand] = useState<Hand>({ closedPart: [], openPart: [] });
+  const [hand, setHand] = useState<Hand>(createEmptyHand());
+
+  const sortedHand = sortHandTiles(hand);
 
   const snapPoints = [84];
   const bottomSheetHeight = useSharedValue(0);
@@ -31,13 +34,13 @@ export default function CalculatorScreen() {
   }, [route.params?.initialHand]);
 
   const handleCalculate = () => {
-    navigation.replace('Confirm', { hand });
+    navigation.replace('Confirm', { hand: sortedHand });
   };
 
   return (
     <View style={styles.container}>
       <TileSelector
-        hand={hand}
+        hand={sortedHand}
         onHandChange={setHand}
         bottomSheetHeight={bottomSheetHeight}
       />
@@ -48,7 +51,7 @@ export default function CalculatorScreen() {
         style={styles.bottomSheet}>
         <BottomSheetView>
           <HandBuilder
-            hand={hand}
+            hand={sortedHand}
             onHandChange={setHand}
             onCalculate={handleCalculate}
             bottomSheetHeight={bottomSheetHeight}
