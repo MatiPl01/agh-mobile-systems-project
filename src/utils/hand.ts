@@ -97,6 +97,23 @@ export function isValidHand(hand: Hand) {
   return isOpenPartValid && isTilesCountValid;
 }
 
+export function sortHandTiles(hand: Hand): Hand {
+  'worklet';
+
+  const closedPart = [...hand.closedPart].sort(
+    (a, b) => ORDERED_TILES.indexOf(a) - ORDERED_TILES.indexOf(b)
+  );
+
+  const openPart = hand.openPart.map(meld => ({
+    ...meld,
+    tiles: [...meld.tiles].sort(
+      (a, b) => ORDERED_TILES.indexOf(a) - ORDERED_TILES.indexOf(b)
+    )
+  }));
+
+  return { closedPart, openPart };
+}
+
 export function getHandTileCounts(hand: Hand): TileCount {
   const counts = ORDERED_TILES.reduce((acc, tileId) => {
     acc[tileId] = 0;
@@ -120,6 +137,10 @@ export function getHandSize(hand: Hand): number {
 
 export function isEmptyHand(hand: Hand): boolean {
   return hand.closedPart.length === 0 && hand.openPart.length === 0;
+}
+
+export function createEmptyHand(): Hand {
+  return { closedPart: [], openPart: [] };
 }
 
 export function addClosedPartTile(hand: Hand, tileId: TileId): Hand {

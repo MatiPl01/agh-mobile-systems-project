@@ -34,7 +34,7 @@ export default function CalculateHomeScreen() {
           pressed && styles.buttonPressed
         ]}
         onPress={() => navigation.navigate('Scanner')}>
-        <Text style={styles.buttonText}>Scan Board</Text>
+        <Text style={styles.buttonText}>Scan Hand</Text>
       </Pressable>
 
       <Pressable

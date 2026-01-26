@@ -1,6 +1,7 @@
 import { Text, View } from '@/components';
 import type { Hand } from '@/types/hand';
 import {
+  createEmptyHand,
   getHandSize,
   groupTilesIntoOpenPart,
   isEmptyHand,
@@ -133,7 +134,7 @@ export default function HandBuilder({
   };
 
   const handleClearAll = () => {
-    onHandChange({ closedPart: [], openPart: [] });
+    onHandChange(createEmptyHand());
     cancelGrouping();
   };
 
@@ -378,9 +379,6 @@ const styles = StyleSheet.create(theme => ({
   contentWrapper: {
     flex: 1
   },
-  bannerPadding: {
-    marginHorizontal: theme.spacing.base
-  },
   header: {
     flexDirection: 'row',
     marginBottom: theme.spacing.xs,
@@ -448,14 +446,17 @@ const styles = StyleSheet.create(theme => ({
     color: theme.colors.textSecondary,
     textAlign: 'center'
   },
+  bannerPadding: {
+    marginHorizontal: theme.spacing.base,
+    padding: theme.spacing.md,
+    borderRadius: theme.borderRadius.base,
+    marginBottom: theme.spacing.sm
+  },
   removalModeBanner: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: theme.colors.warning + '20',
-    padding: theme.spacing.sm,
-    borderRadius: theme.borderRadius.base,
-    marginBottom: theme.spacing.sm
+    backgroundColor: theme.colors.warning + '20'
   },
   removalModeText: {
     fontSize: theme.typography.sizes.sm,
@@ -573,10 +574,7 @@ const styles = StyleSheet.create(theme => ({
   },
   completeBanner: {
     alignItems: 'center',
-    backgroundColor: theme.colors.success + '20',
-    padding: theme.spacing.sm,
-    borderRadius: theme.borderRadius.base,
-    marginBottom: theme.spacing.sm
+    backgroundColor: theme.colors.success + '20'
   },
   completeText: {
     fontSize: theme.typography.sizes.sm,
@@ -588,7 +586,7 @@ const styles = StyleSheet.create(theme => ({
     paddingBottom: theme.spacing.sm
   },
   calculateButton: {
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.base,
     backgroundColor: theme.colors.primary,
     borderRadius: theme.borderRadius.base
@@ -614,7 +612,7 @@ const styles = StyleSheet.create(theme => ({
     paddingBottom: theme.spacing.sm
   },
   groupTilesButton: {
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: theme.spacing.md,
     paddingHorizontal: theme.spacing.base,
     backgroundColor: theme.colors.primary,
     borderRadius: theme.borderRadius.base

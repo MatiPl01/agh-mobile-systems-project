@@ -53,7 +53,7 @@ export default function ConfirmScreen() {
   const handleConfirm = () => {
     if (winningTileIndex === null) return;
 
-    navigation.replace('Result', {
+    navigation.navigate('Result', {
       hand: {
         ...hand,
         options: {
@@ -209,72 +209,74 @@ export default function ConfirmScreen() {
           </View>
         </View>
 
-        <View>
-          <Text style={styles.sectionTitle}>Riichi options</Text>
-          <View style={styles.optionGroup}>
-            <View style={styles.windGrid}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.windButton,
-                  riichi && styles.windButtonActive,
-                  pressed && styles.windButtonPressed
-                ]}
-                onPress={() => {
-                  setRiichi(!riichi);
-                  if (riichi) {
-                    setIppatsu(false);
-                    setDoubleRiichi(false);
-                  }
-                }}>
-                <Text
-                  style={[
-                    styles.windButtonText,
-                    riichi && styles.windButtonTextActive
-                  ]}>
-                  Riichi
-                </Text>
-              </Pressable>
+        {hand.openPart.length === 0 && (
+          <View>
+            <Text style={styles.sectionTitle}>Riichi options</Text>
+            <View style={styles.optionGroup}>
+              <View style={styles.windGrid}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.windButton,
+                    riichi && styles.windButtonActive,
+                    pressed && styles.windButtonPressed
+                  ]}
+                  onPress={() => {
+                    setRiichi(!riichi);
+                    if (riichi) {
+                      setIppatsu(false);
+                      setDoubleRiichi(false);
+                    }
+                  }}>
+                  <Text
+                    style={[
+                      styles.windButtonText,
+                      riichi && styles.windButtonTextActive
+                    ]}>
+                    Riichi
+                  </Text>
+                </Pressable>
 
-              <Pressable
-                style={({ pressed }) => [
-                  styles.windButton,
-                  ippatsu && styles.windButtonActive,
-                  !riichi && styles.windButtonDisabled,
-                  pressed && riichi && styles.windButtonPressed
-                ]}
-                onPress={() => riichi && setIppatsu(!ippatsu)}
-                disabled={!riichi}>
-                <Text
-                  style={[
-                    styles.windButtonText,
-                    ippatsu && styles.windButtonTextActive,
-                    !riichi && styles.windButtonTextDisabled
-                  ]}>
-                  Ippatsu
-                </Text>
-              </Pressable>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.windButton,
+                    ippatsu && styles.windButtonActive,
+                    !riichi && styles.windButtonDisabled,
+                    pressed && riichi && styles.windButtonPressed
+                  ]}
+                  onPress={() => riichi && setIppatsu(!ippatsu)}
+                  disabled={!riichi}>
+                  <Text
+                    style={[
+                      styles.windButtonText,
+                      ippatsu && styles.windButtonTextActive,
+                      !riichi && styles.windButtonTextDisabled
+                    ]}>
+                    Ippatsu
+                  </Text>
+                </Pressable>
 
-              <Pressable
-                style={({ pressed }) => [
-                  styles.windButton,
-                  doubleRiichi && styles.windButtonActive,
-                  !riichi && styles.windButtonDisabled,
-                  pressed && riichi && styles.windButtonPressed
-                ]}
-                onPress={() => riichi && setDoubleRiichi(!doubleRiichi)}
-                disabled={!riichi}>
-                <Text
-                  style={[
-                    styles.windButtonText,
-                    doubleRiichi && styles.windButtonTextActive,
-                    !riichi && styles.windButtonTextDisabled
-                  ]}>
-                  Double
-                </Text>
-              </Pressable>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.windButton,
+                    doubleRiichi && styles.windButtonActive,
+                    !riichi && styles.windButtonDisabled,
+                    pressed && riichi && styles.windButtonPressed
+                  ]}
+                  onPress={() => riichi && setDoubleRiichi(!doubleRiichi)}
+                  disabled={!riichi}>
+                  <Text
+                    style={[
+                      styles.windButtonText,
+                      doubleRiichi && styles.windButtonTextActive,
+                      !riichi && styles.windButtonTextDisabled
+                    ]}>
+                    Double
+                  </Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
+        )}
       </ScrollView>
       <View style={styles.buttonContainer}>
         <Pressable

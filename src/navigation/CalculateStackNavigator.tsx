@@ -31,7 +31,7 @@ export default function CalculateStackNavigator() {
       <Stack.Screen
         name='Scanner'
         component={ScannerScreen}
-        options={{ title: 'Scan Board' }}
+        options={{ title: 'Scan Hand' }}
       />
       <Stack.Screen
         name='Confirm'
