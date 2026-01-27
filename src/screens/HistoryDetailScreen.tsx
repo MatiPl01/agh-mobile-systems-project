@@ -6,6 +6,7 @@ import { calculateHandPoints } from '@/utils/calculator';
 import { createEmptyHand } from '@/utils/hand';
 import { capitalizeFirstLetter } from '@/utils/utils';
 import { TILES } from '@assets/images/tiles';
+import type { TileId, Hand } from '@/types/hand';
 import {
   useNavigation,
   useRoute,
@@ -15,7 +16,7 @@ import { useMemo } from 'react';
 import { Image, Pressable, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-type HistoryDetailRouteProp = RouteProp<HistoryStackParamList, 'HistoryDetail'>;
+type HistoryDetailRouteProp = RouteProp<HistoryStackParamList, 'HandDetail'>;
 
 export default function HistoryDetailScreen() {
   const route = useRoute<HistoryDetailRouteProp>();
@@ -26,7 +27,12 @@ export default function HistoryDetailScreen() {
   const { getItem } = useHistory();
 
   const item = getItem(handId);
-  const hand = item?.hand ?? createEmptyHand();
+  
+  // HistoryItem stores tiles as a flat array, so we create a simple hand structure
+  // with all tiles in closedPart for display purposes
+  const hand: Hand = item
+    ? { closedPart: item.tiles, openPart: [] }
+    : createEmptyHand();
   const result = item?.result ?? calculateHandPoints(hand);
 
   const yakuEntries = useMemo(() => {
@@ -91,9 +97,9 @@ export default function HistoryDetailScreen() {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.tilesContainer}>
-            {hand.closedPart.map((tileId, index) => (
+            {hand.closedPart.map((tileId: TileId, index: number) => (
               <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
-                <Image source={TILES[tileId]} style={styles.tile} />
+                <Image source={TILES[tileId] as number} style={styles.tile} />
               </View>
             ))}
           </ScrollView>
@@ -105,11 +111,11 @@ export default function HistoryDetailScreen() {
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.tilesContainer}>
-              {hand.openPart.map((meld, meldIndex) => (
+              {hand.openPart.map((meld: { tiles: TileId[] }, meldIndex: number) => (
                 <View key={meldIndex} style={styles.meldGroup}>
-                  {meld.tiles.map((tileId, index) => (
+                  {meld.tiles.map((tileId: TileId, index: number) => (
                     <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
-                      <Image source={TILES[tileId]} style={styles.tile} />
+                      <Image source={TILES[tileId] as number} style={styles.tile} />
                     </View>
                   ))}
                 </View>

@@ -1,28 +1,20 @@
-import { Hand, HandPoints } from '@/types/hand';
+import type { HandPoints as ScoringResult, TileId } from '@/types/hand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
-const HISTORY_KEY = 'calculation-history-2';
+const HISTORY_KEY = 'calculation-history';
 
-export type HistoryItem = {
+export interface HistoryItem {
   id: string;
-  hand: Hand;
-  result: HandPoints;
+  tiles: TileId[];
+  result: ScoringResult;
   timestamp: number;
-};
-
-// Storage helpers
-const getStoredItems = async (): Promise<HistoryItem[]> => {
-  const json = await AsyncStorage.getItem(HISTORY_KEY);
-  return json ? JSON.parse(json) : [];
-};
-
-const saveItems = (items: HistoryItem[]) =>
-  AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(items));
+}
 
 // Simple event emitter to sync multiple hook instances
 let listeners: (() => void)[] = [];
 const notify = () => listeners.forEach(l => l());
+
 const subscribe = (listener: () => void) => {
   listeners.push(listener);
   return () => {
@@ -36,7 +28,12 @@ export function useHistory() {
 
   const loadHistory = useCallback(async () => {
     try {
-      setItems(await getStoredItems());
+      const json = await AsyncStorage.getItem(HISTORY_KEY);
+      if (json) {
+        setItems(JSON.parse(json));
+      } else {
+        setItems([]);
+      }
     } catch (error) {
       console.error('Failed to load history:', error);
       setItems([]);
@@ -50,28 +47,36 @@ export function useHistory() {
     return subscribe(loadHistory);
   }, [loadHistory]);
 
-  const addItem = useCallback(async (hand: Hand, result: HandPoints) => {
-    const newItem: HistoryItem = {
-      id: `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
-      hand,
-      result,
-      timestamp: Date.now()
-    };
-    try {
-      const currentItems = await getStoredItems();
-      await saveItems([newItem, ...currentItems]);
-      notify();
-      return newItem.id;
-    } catch (error) {
-      console.error('Failed to add history item:', error);
-      return null;
-    }
-  }, []);
+  const addItem = useCallback(
+    async (tiles: TileId[], result: ScoringResult) => {
+      const newItem: HistoryItem = {
+        id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+        tiles,
+        result,
+        timestamp: Date.now()
+      };
+
+      try {
+        const json = await AsyncStorage.getItem(HISTORY_KEY);
+        const currentItems: HistoryItem[] = json ? JSON.parse(json) : [];
+        const newItems = [newItem, ...currentItems];
+        await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(newItems));
+        notify();
+        return newItem.id;
+      } catch (error) {
+        console.error('Failed to add history item:', error);
+        return null;
+      }
+    },
+    []
+  );
 
   const removeItem = useCallback(async (id: string) => {
     try {
-      const currentItems = await getStoredItems();
-      await saveItems(currentItems.filter(item => item.id !== id));
+      const json = await AsyncStorage.getItem(HISTORY_KEY);
+      const currentItems: HistoryItem[] = json ? JSON.parse(json) : [];
+      const newItems = currentItems.filter(item => item.id !== id);
+      await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(newItems));
       notify();
     } catch (error) {
       console.error('Failed to remove history item:', error);
@@ -88,16 +93,16 @@ export function useHistory() {
   }, []);
 
   const updateItem = useCallback(
-    async (id: string, hand: Hand, result: HandPoints) => {
+    async (id: string, tiles: TileId[], result: ScoringResult) => {
       try {
-        const currentItems = await getStoredItems();
-        await saveItems(
-          currentItems.map(item =>
-            item.id === id
-              ? { ...item, hand, result, timestamp: Date.now() }
-              : item
-          )
+        const json = await AsyncStorage.getItem(HISTORY_KEY);
+        const currentItems: HistoryItem[] = json ? JSON.parse(json) : [];
+        const newItems = currentItems.map(item =>
+          item.id === id
+            ? { ...item, tiles, result, timestamp: Date.now() }
+            : item
         );
+        await AsyncStorage.setItem(HISTORY_KEY, JSON.stringify(newItems));
         notify();
       } catch (error) {
         console.error('Failed to update history item:', error);
@@ -107,7 +112,9 @@ export function useHistory() {
   );
 
   const getItem = useCallback(
-    (id: string) => items.find(item => item.id === id),
+    (id: string): HistoryItem | undefined => {
+      return items.find(item => item.id === id);
+    },
     [items]
   );
 
