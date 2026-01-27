@@ -42,7 +42,7 @@ export default function CalculateHomeScreen() {
           styles.button,
           pressed && styles.buttonPressed
         ]}
-        onPress={() => navigation.navigate('Calculator')}>
+        onPress={() => navigation.navigate('Calculator', {})}>
         <Text style={styles.buttonText}>Manual Input</Text>
       </Pressable>
     </View>

@@ -20,6 +20,8 @@ export default function CalculatorScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<CalculatorRouteProp>();
 
+  const { initialHand, historyId } = route.params;
+
   const [hand, setHand] = useState<Hand>(createEmptyHand());
 
   const sortedHand = sortHandTiles(hand);
@@ -28,13 +30,13 @@ export default function CalculatorScreen() {
   const bottomSheetHeight = useSharedValue(0);
 
   useEffect(() => {
-    if (route.params?.initialHand) {
-      setHand(route.params.initialHand);
+    if (initialHand) {
+      setHand(initialHand);
     }
-  }, [route.params?.initialHand]);
+  }, [initialHand]);
 
   const handleCalculate = () => {
-    navigation.replace('Confirm', { hand: sortedHand });
+    navigation.replace('Confirm', { hand: sortedHand, historyId: historyId });
   };
 
   return (

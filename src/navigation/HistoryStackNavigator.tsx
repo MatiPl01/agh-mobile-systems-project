@@ -1,12 +1,11 @@
+import HistoryDetailScreen from '@/screens/HistoryDetailScreen';
+import HistoryScreen from '@/screens/HistoryScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as React from 'react';
 
-// import HandDetailScreen from '@/screens/HandDetailScreen';
-// import HistoryScreen from '@/screens/HistoryScreen';
-
 export type HistoryStackParamList = {
   HistoryList: undefined;
-  HandDetail: { handId: string };
+  HistoryDetail: { handId: string };
 };
 
 const Stack = createNativeStackNavigator<HistoryStackParamList>();
@@ -20,14 +19,12 @@ export default function HistoryStackNavigator() {
       }}>
       <Stack.Screen
         name='HistoryList'
-        // component={HistoryScreen}
-        component={() => null}
+        component={HistoryScreen}
         options={{ title: 'History' }}
       />
       <Stack.Screen
-        name='HandDetail'
-        // component={HandDetailScreen}
-        component={() => null}
+        name='HistoryDetail'
+        component={HistoryDetailScreen}
         options={{ title: 'Hand Details' }}
       />
     </Stack.Navigator>

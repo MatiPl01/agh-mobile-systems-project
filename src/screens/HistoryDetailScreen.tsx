@@ -1,65 +1,33 @@
 import { Text, View } from '@/components';
 import { yakuList } from '@/data/yaku';
 import { useHistory } from '@/hooks/useHistory';
-import type { CalculateStackParamList } from '@/navigation/CalculateStackNavigator';
+import type { HistoryStackParamList } from '@/navigation/HistoryStackNavigator';
 import { calculateHandPoints } from '@/utils/calculator';
+import { createEmptyHand } from '@/utils/hand';
 import { capitalizeFirstLetter } from '@/utils/utils';
 import { TILES } from '@assets/images/tiles';
 import {
-  CommonActions,
   useNavigation,
   useRoute,
   type RouteProp
 } from '@react-navigation/native';
-import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { Image, Pressable, ScrollView } from 'react-native';
 import { StyleSheet } from 'react-native-unistyles';
 
-type NavigationProp = NativeStackNavigationProp<CalculateStackParamList>;
-type ResultsRouteProp = RouteProp<CalculateStackParamList, 'Result'>;
+type HistoryDetailRouteProp = RouteProp<HistoryStackParamList, 'HistoryDetail'>;
 
-export default function ResultScreen() {
-  const navigation = useNavigation<NavigationProp>();
-  const route = useRoute<ResultsRouteProp>();
+export default function HistoryDetailScreen() {
+  const route = useRoute<HistoryDetailRouteProp>();
+  const navigation = useNavigation();
 
-  const { hand, historyId } = route.params;
+  const { handId } = route.params;
 
-  const { addItem, updateItem } = useHistory();
+  const { getItem } = useHistory();
 
-  const savedHistoryIdRef = useRef<string | null>(historyId ?? null);
-
-  const result = useMemo(() => calculateHandPoints(hand), [hand]);
-
-  useEffect(() => {
-    const saveToHistory = async () => {
-      if (savedHistoryIdRef.current) {
-        console.log('Updating history item:', savedHistoryIdRef.current);
-        await updateItem(savedHistoryIdRef.current, hand, result);
-      } else {
-        const newId = await addItem(hand, result);
-        savedHistoryIdRef.current = newId;
-        console.log('Added new history item with ID:', newId);
-      }
-    };
-    saveToHistory();
-  }, [hand, result, addItem, updateItem]);
-
-  const handleEdit = () => {
-    navigation.replace('Calculator', {
-      initialHand: hand,
-      historyId: savedHistoryIdRef.current ?? undefined
-    });
-  };
-
-  const handleNewCalculation = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'CalculateHome' }]
-      })
-    );
-  };
+  const item = getItem(handId);
+  const hand = item?.hand ?? createEmptyHand();
+  const result = item?.result ?? calculateHandPoints(hand);
 
   const yakuEntries = useMemo(() => {
     if (!result.yaku) return [];
@@ -176,25 +144,6 @@ export default function ResultScreen() {
           </View>
         )}
       </ScrollView>
-
-      <View style={styles.buttonContainer}>
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            pressed && styles.buttonPressed
-          ]}
-          onPress={handleEdit}>
-          <Text style={styles.secondaryButtonText}>Edit Hand</Text>
-        </Pressable>
-        <Pressable
-          style={({ pressed }) => [
-            styles.button,
-            pressed && styles.buttonPressed
-          ]}
-          onPress={handleNewCalculation}>
-          <Text style={styles.buttonText}>New</Text>
-        </Pressable>
-      </View>
     </View>
   );
 }
@@ -334,38 +283,5 @@ const styles = StyleSheet.create(theme => ({
   yakuHanLabel: {
     fontSize: theme.typography.sizes.xs,
     color: theme.colors.primary
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    gap: theme.spacing.sm,
-    padding: theme.spacing.base,
-    borderTopWidth: 1,
-    borderColor: theme.colors.border
-  },
-  button: {
-    flex: 1
-  },
-  buttonPressed: {
-    opacity: 0.8
-  },
-  buttonText: {
-    backgroundColor: theme.colors.primary,
-    color: '#FFFFFF',
-    paddingVertical: theme.spacing.base,
-    paddingHorizontal: theme.spacing.xl,
-    fontSize: theme.typography.sizes.lg,
-    fontWeight: '600',
-    textAlign: 'center',
-    borderRadius: theme.borderRadius.md
-  },
-  secondaryButtonText: {
-    backgroundColor: theme.colors.secondary + '30',
-    color: theme.colors.textSecondary,
-    paddingVertical: theme.spacing.base,
-    paddingHorizontal: theme.spacing.xl,
-    fontSize: theme.typography.sizes.lg,
-    fontWeight: '600',
-    textAlign: 'center',
-    borderRadius: theme.borderRadius.md
   }
 }));

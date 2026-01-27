@@ -9,8 +9,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 export type CalculateStackParamList = {
   CalculateHome: undefined;
   Scanner: undefined;
-  Confirm: { hand: Hand };
-  Calculator: { initialHand?: Hand; historyId?: string } | undefined;
+  Confirm: { hand: Hand; historyId?: string };
+  Calculator: { initialHand?: Hand; historyId?: string };
   Result: { hand: Hand; historyId?: string };
 };
 

@@ -20,12 +20,14 @@ export default function YakuDetailScreen() {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.content}>
-          <Text type='title' style={styles.title}>
-            Yaku Not Found
-          </Text>
-          <Text style={styles.errorText}>
-            The requested yaku could not be found.
-          </Text>
+          <View>
+            <Text type='title' style={styles.title}>
+              Yaku Not Found
+            </Text>
+            <Text style={styles.errorText}>
+              The requested yaku could not be found.
+            </Text>
+          </View>
         </ScrollView>
       </View>
     );
@@ -262,15 +264,15 @@ const styles = StyleSheet.create(theme => ({
     paddingHorizontal: 3,
     paddingVertical: 4,
     borderWidth: 1,
-    borderColor: theme.colors.border
+    borderColor: theme.colors.border,
+    backgroundColor: '#F9F9F9'
   },
   tileImage: {
     width: 27,
     height: 36
   },
   errorText: {
-    fontSize: theme.typography.sizes.base,
-    color: theme.colors.textSecondary,
-    textAlign: 'center'
+    fontSize: theme.typography.sizes.sm,
+    color: theme.colors.textSecondary
   }
 }));
