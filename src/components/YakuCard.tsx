@@ -119,10 +119,12 @@ const styles = StyleSheet.create(theme => ({
     paddingHorizontal: 3,
     paddingVertical: 4,
     borderWidth: 1,
-    borderColor: theme.colors.border
+    borderColor: theme.colors.border,
+    backgroundColor: '#F9F9F9'
   },
   tileImage: {
     width: 24,
-    height: 32
+    height: 32,
+    resizeMode: 'contain'
   }
 }));

@@ -696,7 +696,7 @@ export const yakuList: Yaku[] = [
     openHand: 'both'
   },
   {
-    id: 'kokushi_musou',
+    id: 'kokushimusou',
     name: 'Kokushi musou',
     nameEn: 'Thirteen orphans',
     nameJp: '国士無双',

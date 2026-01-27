@@ -34,7 +34,8 @@ function getWindLabel(wind: Wind) {
 export default function ConfirmScreen() {
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<ConfirmRouteProp>();
-  const { hand } = route.params;
+
+  const { hand, historyId } = route.params;
 
   const [winningTileIndex, setWinningTileIndex] = useState<number | null>(null);
   const [winType, setWinType] = useState<WinType>('tsumo');
@@ -47,7 +48,7 @@ export default function ConfirmScreen() {
   const isConfirmDisabled = winningTileIndex === null;
 
   const handleEdit = () => {
-    navigation.replace('Calculator', { initialHand: hand });
+    navigation.replace('Calculator', { initialHand: hand, historyId });
   };
 
   const handleConfirm = () => {
@@ -65,7 +66,8 @@ export default function ConfirmScreen() {
           ippatsu,
           doubleRiichi
         }
-      }
+      },
+      historyId
     });
   };
 
@@ -165,15 +167,15 @@ export default function ConfirmScreen() {
                 <Pressable
                   key={wind}
                   style={({ pressed }) => [
-                    styles.windButton,
-                    roundWind === wind && styles.windButtonActive,
-                    pressed && styles.windButtonPressed
+                    styles.optionButton,
+                    roundWind === wind && styles.optionButtonActive,
+                    pressed && styles.optionButtonPressed
                   ]}
                   onPress={() => setRoundWind(wind)}>
                   <Text
                     style={[
-                      styles.windButtonText,
-                      roundWind === wind && styles.windButtonTextActive
+                      styles.optionButtonText,
+                      roundWind === wind && styles.optionButtonTextActive
                     ]}>
                     {getWindLabel(wind)}
                   </Text>
@@ -191,15 +193,15 @@ export default function ConfirmScreen() {
                 <Pressable
                   key={wind}
                   style={({ pressed }) => [
-                    styles.windButton,
-                    seatWind === wind && styles.windButtonActive,
-                    pressed && styles.windButtonPressed
+                    styles.optionButton,
+                    seatWind === wind && styles.optionButtonActive,
+                    pressed && styles.optionButtonPressed
                   ]}
                   onPress={() => setSeatWind(wind)}>
                   <Text
                     style={[
-                      styles.windButtonText,
-                      seatWind === wind && styles.windButtonTextActive
+                      styles.optionButtonText,
+                      seatWind === wind && styles.optionButtonTextActive
                     ]}>
                     {getWindLabel(wind)}
                   </Text>
@@ -216,9 +218,9 @@ export default function ConfirmScreen() {
               <View style={styles.windGrid}>
                 <Pressable
                   style={({ pressed }) => [
-                    styles.windButton,
-                    riichi && styles.windButtonActive,
-                    pressed && styles.windButtonPressed
+                    styles.optionButton,
+                    riichi && styles.optionButtonActive,
+                    pressed && styles.optionButtonPressed
                   ]}
                   onPress={() => {
                     setRiichi(!riichi);
@@ -229,8 +231,8 @@ export default function ConfirmScreen() {
                   }}>
                   <Text
                     style={[
-                      styles.windButtonText,
-                      riichi && styles.windButtonTextActive
+                      styles.optionButtonText,
+                      riichi && styles.optionButtonTextActive
                     ]}>
                     Riichi
                   </Text>
@@ -238,18 +240,18 @@ export default function ConfirmScreen() {
 
                 <Pressable
                   style={({ pressed }) => [
-                    styles.windButton,
-                    ippatsu && styles.windButtonActive,
-                    !riichi && styles.windButtonDisabled,
-                    pressed && riichi && styles.windButtonPressed
+                    styles.optionButton,
+                    ippatsu && styles.optionButtonActive,
+                    !riichi && styles.optionButtonDisabled,
+                    pressed && riichi && styles.optionButtonPressed
                   ]}
                   onPress={() => riichi && setIppatsu(!ippatsu)}
                   disabled={!riichi}>
                   <Text
                     style={[
-                      styles.windButtonText,
-                      ippatsu && styles.windButtonTextActive,
-                      !riichi && styles.windButtonTextDisabled
+                      styles.optionButtonText,
+                      ippatsu && styles.optionButtonTextActive,
+                      !riichi && styles.optionButtonTextDisabled
                     ]}>
                     Ippatsu
                   </Text>
@@ -257,18 +259,18 @@ export default function ConfirmScreen() {
 
                 <Pressable
                   style={({ pressed }) => [
-                    styles.windButton,
-                    doubleRiichi && styles.windButtonActive,
-                    !riichi && styles.windButtonDisabled,
-                    pressed && riichi && styles.windButtonPressed
+                    styles.optionButton,
+                    doubleRiichi && styles.optionButtonActive,
+                    !riichi && styles.optionButtonDisabled,
+                    pressed && riichi && styles.optionButtonPressed
                   ]}
                   onPress={() => riichi && setDoubleRiichi(!doubleRiichi)}
                   disabled={!riichi}>
                   <Text
                     style={[
-                      styles.windButtonText,
-                      doubleRiichi && styles.windButtonTextActive,
-                      !riichi && styles.windButtonTextDisabled
+                      styles.optionButtonText,
+                      doubleRiichi && styles.optionButtonTextActive,
+                      !riichi && styles.optionButtonTextDisabled
                     ]}>
                     Double
                   </Text>
@@ -407,7 +409,7 @@ const styles = StyleSheet.create(theme => ({
     flexDirection: 'row',
     gap: theme.spacing.xs
   },
-  windButton: {
+  optionButton: {
     flex: 1,
     paddingVertical: theme.spacing.sm,
     paddingHorizontal: theme.spacing.base,
@@ -417,25 +419,25 @@ const styles = StyleSheet.create(theme => ({
     backgroundColor: theme.colors.backgroundSecondary,
     alignItems: 'center'
   },
-  windButtonActive: {
+  optionButtonActive: {
     borderColor: theme.colors.primary,
     backgroundColor: theme.colors.primary + '10'
   },
-  windButtonPressed: {
+  optionButtonPressed: {
     opacity: 0.7
   },
-  windButtonDisabled: {
-    opacity: 0.4
+  optionButtonDisabled: {
+    opacity: 0.5
   },
-  windButtonText: {
+  optionButtonText: {
     fontSize: theme.typography.sizes.base,
     fontWeight: '600',
     color: theme.colors.text
   },
-  windButtonTextActive: {
+  optionButtonTextActive: {
     color: theme.colors.primary
   },
-  windButtonTextDisabled: {
+  optionButtonTextDisabled: {
     color: theme.colors.textSecondary
   },
   buttonContainer: {
@@ -465,8 +467,8 @@ const styles = StyleSheet.create(theme => ({
     opacity: 0.5
   },
   secondaryButtonText: {
-    backgroundColor: theme.colors.secondary,
-    color: '#FFFFFF',
+    backgroundColor: theme.colors.secondary + '30',
+    color: theme.colors.textSecondary,
     paddingVertical: theme.spacing.base,
     paddingHorizontal: theme.spacing.xl,
     fontSize: theme.typography.sizes.lg,

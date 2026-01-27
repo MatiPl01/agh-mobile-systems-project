@@ -135,6 +135,12 @@ export function getHandSize(hand: Hand): number {
   );
 }
 
+export function getAllHandTiles(hand: Hand): TileId[] {
+  const closedTiles = hand.closedPart;
+  const openTiles = hand.openPart.flatMap(meld => meld.tiles);
+  return [...closedTiles, ...openTiles];
+}
+
 export function isEmptyHand(hand: Hand): boolean {
   return hand.closedPart.length === 0 && hand.openPart.length === 0;
 }
