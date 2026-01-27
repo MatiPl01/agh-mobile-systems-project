@@ -1,14 +1,18 @@
 import { Text, View } from '@/components';
 import { useHistory, type HistoryItem } from '@/hooks/useHistory';
 import type { HistoryStackParamList } from '@/navigation/HistoryStackNavigator';
-import type { TileId } from '@/types/hand';
 import { TILES } from '@assets/images/tiles';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
-import { Alert, Image, Pressable, ScrollView } from 'react-native';
-import Animated, { LinearTransition } from 'react-native-reanimated';
-import { StyleSheet } from 'react-native-unistyles';
+import { Alert, Image, Pressable } from 'react-native';
+import Animated, {
+  FadeIn,
+  FadeOut,
+  LinearTransition
+} from 'react-native-reanimated';
+import { Defs, LinearGradient, Rect, Stop, Svg } from 'react-native-svg';
+import { StyleSheet, useUnistyles } from 'react-native-unistyles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 type NavigationProp = NativeStackNavigationProp<HistoryStackParamList>;
@@ -31,96 +35,130 @@ function formatDate(timestamp: number): string {
   });
 }
 
-function getAllTiles(item: HistoryItem): TileId[] {
-  const closedTiles = item.hand.closedPart;
-  const openTiles = item.hand.openPart.flatMap(meld => meld.tiles);
-  return [...closedTiles, ...openTiles];
-}
+const HistoryItemCard = React.memo(
+  ({
+    item,
+    onPress,
+    onDelete
+  }: {
+    item: HistoryItem;
+    onPress: (id: string) => void;
+    onDelete: (id: string) => void;
+  }) => {
+    const { theme } = useUnistyles();
+    const gradId = `grad-${item.id}`;
 
-function HistoryItemCard({
-  item,
-  onPress,
-  onDelete
-}: {
-  item: HistoryItem;
-  onPress: (id: string) => void;
-  onDelete: (id: string) => void;
-}) {
-  const tiles = getAllTiles(item);
+    // Safe access for legacy data support
+    const points = item.result.ten ?? (item.result as any).totalPoints ?? 0;
 
-  return (
-    <Pressable
-      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
-      onPress={() => onPress(item.id)}>
-      <View style={styles.cardHeader}>
-        <View style={styles.scoreInfo}>
-          <Text style={styles.pointsValue}>
-            {item.result.ten.toLocaleString()}
-          </Text>
-          <Text style={styles.pointsLabel}>points</Text>
-        </View>
-        <View style={styles.hanFuInfo}>
-          {item.result.yakuman ? (
-            <Text style={styles.hanFuText}>{item.result.yakuman} Yakuman</Text>
-          ) : (
-            <Text style={styles.hanFuText}>
-              {item.result.han} Han / {item.result.fu} Fu
-            </Text>
-          )}
-          <Text style={styles.dateText}>{formatDate(item.timestamp)}</Text>
-        </View>
+    return (
+      <View>
         <Pressable
-          onPress={() => onDelete(item.id)}
-          hitSlop={10}
-          style={({ pressed }) => [
-            styles.deleteButton,
-            pressed && styles.deleteButtonPressed
-          ]}>
-          <Icon name='delete-outline' size={20} style={styles.deleteIcon} />
+          style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+          onPress={() => onPress(item.id)}>
+          <View style={styles.cardHeader}>
+            <View style={styles.pointsBadge}>
+              <Text style={styles.pointsValue}>{points.toLocaleString()}</Text>
+              <Text style={styles.pointsLabel}>pts</Text>
+            </View>
+            <View style={styles.cardMeta}>
+              <Text style={styles.cardHanFu}>
+                {item.result.han} Han / {item.result.fu} Fu
+              </Text>
+              <Text style={styles.cardDate}>{formatDate(item.timestamp)}</Text>
+            </View>
+            <Pressable
+              onPress={() => onDelete(item.id)}
+              hitSlop={10}
+              style={styles.deleteButton}>
+              <Icon name='delete-outline' size={20} color='#FF3B30' />
+            </Pressable>
+          </View>
+
+          <View style={styles.tilesContainer}>
+            <View style={styles.tilesRow}>
+              {item.tiles?.map((tileId, index) => (
+                <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
+                  <Image source={TILES[tileId]} style={styles.tile} />
+                </View>
+              ))}
+            </View>
+            {/* Gradient Fade Overlay - Only on the right side */}
+            <View style={styles.fadeOverlay} pointerEvents='none'>
+              <Svg height='100%' width='60' style={styles.fadeSvg}>
+                <Defs>
+                  <LinearGradient id={gradId} x1='0' y1='0' x2='1' y2='0'>
+                    <Stop
+                      offset='0'
+                      stopColor={theme.colors.backgroundSecondary}
+                      stopOpacity='0'
+                    />
+                    <Stop
+                      offset='1'
+                      stopColor={theme.colors.backgroundSecondary}
+                      stopOpacity='1'
+                    />
+                  </LinearGradient>
+                </Defs>
+                <Rect width='60' height='100%' fill={`url(#${gradId})`} />
+              </Svg>
+            </View>
+          </View>
         </Pressable>
       </View>
-
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.tilesContainer}>
-        {tiles.map((tileId, index) => (
-          <View key={`${tileId}-${index}`} style={styles.tileWrapper}>
-            <Image source={TILES[tileId]} style={styles.tile} />
-          </View>
-        ))}
-      </ScrollView>
-    </Pressable>
-  );
-}
+    );
+  }
+);
 
 export default function HistoryScreen() {
   const navigation = useNavigation<NavigationProp>();
   const { items, removeItem } = useHistory();
 
-  const handleItemPress = (id: string) => {
-    navigation.navigate('HistoryDetail', { handId: id });
-  };
+  const handleItemPress = React.useCallback(
+    (id: string) => {
+      navigation.navigate('HandDetail', { handId: id });
+    },
+    [navigation]
+  );
 
-  const handleDelete = (id: string) => {
-    Alert.alert(
-      'Delete Hand',
-      'Are you sure you want to remove this from history?',
-      [
+  const handleDelete = React.useCallback(
+    (id: string) => {
+      Alert.alert('Delete', 'Remove this calculation from history?', [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Delete', style: 'destructive', onPress: () => removeItem(id) }
-      ]
-    );
-  };
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => removeItem(id)
+        }
+      ]);
+    },
+    [removeItem]
+  );
+
+  const renderItem = React.useCallback(
+    ({ item }: { item: HistoryItem }) => (
+      <Animated.View
+        entering={FadeIn}
+        exiting={FadeOut}
+        layout={LinearTransition}>
+        <HistoryItemCard
+          item={item}
+          onPress={handleItemPress}
+          onDelete={handleDelete}
+        />
+      </Animated.View>
+    ),
+    [handleItemPress, handleDelete]
+  );
 
   if (items.length === 0) {
     return (
       <View style={styles.container}>
         <View style={styles.emptyState}>
-          <Text style={styles.emptyEmoji}>📜</Text>
+          {/* <Text style={styles.emptyEmoji}>📜</Text> */}
           <Text style={styles.emptyTitle}>No History Yet</Text>
           <Text style={styles.emptyText}>
-            Your hands history will appear here
+            Your calculation history will appear here
           </Text>
         </View>
       </View>
@@ -131,17 +169,11 @@ export default function HistoryScreen() {
     <View style={styles.container}>
       <Animated.FlatList
         data={items}
+        renderItem={renderItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
         itemLayoutAnimation={LinearTransition}
-        renderItem={({ item }) => (
-          <HistoryItemCard
-            item={item}
-            onPress={handleItemPress}
-            onDelete={handleDelete}
-          />
-        )}
       />
     </View>
   );
@@ -158,28 +190,28 @@ const styles = StyleSheet.create(theme => ({
   },
   card: {
     backgroundColor: theme.colors.backgroundSecondary,
-    borderRadius: theme.borderRadius.lg,
+    borderRadius: 16,
     padding: theme.spacing.sm,
     gap: theme.spacing.sm,
     borderWidth: 1,
     borderColor: theme.colors.border
   },
   cardPressed: {
-    opacity: 0.7
+    opacity: 0.8
   },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: theme.spacing.md,
+    gap: theme.spacing.sm,
     backgroundColor: 'transparent'
   },
-  scoreInfo: {
+  pointsBadge: {
     backgroundColor: theme.colors.primary,
-    borderRadius: theme.borderRadius.base,
+    borderRadius: 10,
     paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.sm,
+    paddingVertical: 6,
     alignItems: 'center',
-    minWidth: 80
+    minWidth: 70
   },
   pointsValue: {
     fontSize: theme.typography.sizes.lg,
@@ -187,71 +219,90 @@ const styles = StyleSheet.create(theme => ({
     color: '#FFFFFF'
   },
   pointsLabel: {
-    fontSize: theme.typography.sizes.xs,
-    color: 'rgba(255, 255, 255, 0.8)',
-    lineHeight: 12
+    fontSize: 10,
+    color: 'rgba(255, 255, 255, 0.8)'
   },
-  hanFuInfo: {
+  cardMeta: {
     flex: 1,
     backgroundColor: 'transparent'
   },
-  hanFuText: {
+  cardHanFu: {
     fontSize: theme.typography.sizes.base,
-    fontWeight: '600',
+    fontWeight: '700',
     color: theme.colors.text
   },
-  dateText: {
+  cardDate: {
     fontSize: theme.typography.sizes.xs,
     color: theme.colors.textSecondary,
-    lineHeight: 20
+    marginTop: 2
+  },
+  limitBadge: {
+    fontSize: theme.typography.sizes.xs,
+    color: theme.colors.primary,
+    fontWeight: '600'
   },
   deleteButton: {
-    padding: 6,
-    borderRadius: theme.borderRadius.base,
-    backgroundColor: theme.colors.error + '20'
-  },
-  deleteButtonPressed: {
-    opacity: 0.7
-  },
-  deleteIcon: {
-    color: theme.colors.error
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(255, 59, 48, 0.1)'
   },
   tilesContainer: {
-    paddingVertical: theme.spacing.xs,
-    gap: theme.spacing.xs,
-    flexDirection: 'row'
+    position: 'relative',
+    height: 44,
+    overflow: 'hidden',
+    backgroundColor: 'transparent'
+  },
+  tilesRow: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    gap: 4,
+    backgroundColor: 'transparent'
   },
   tileWrapper: {
-    borderRadius: 6,
-    paddingHorizontal: 3,
-    paddingVertical: 4,
+    borderRadius: 4,
+    overflow: 'hidden',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: theme.colors.border,
-    backgroundColor: '#F9F9F9'
+    borderColor: 'rgba(0,0,0,0.1)',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1
   },
   tile: {
-    width: 24,
-    height: 32,
+    width: 28,
+    height: 38,
     resizeMode: 'contain'
+  },
+  fadeOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  },
+  fadeSvg: {
+    backgroundColor: 'transparent'
   },
   emptyState: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    gap: theme.spacing.sm
+    padding: 40,
+    gap: 16
   },
   emptyEmoji: {
     fontSize: 64,
-    marginBottom: theme.spacing.base
+    marginBottom: 20
   },
   emptyTitle: {
-    fontSize: theme.typography.sizes.xl,
+    fontSize: 24,
     fontWeight: '600',
     color: theme.colors.text,
     textAlign: 'center'
   },
   emptyText: {
-    fontSize: theme.typography.sizes.sm,
+    fontSize: 16,
     color: theme.colors.textSecondary,
     textAlign: 'center'
   }
