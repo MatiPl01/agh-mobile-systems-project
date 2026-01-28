@@ -1,0 +1,13 @@
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+
+# Optionally ignore other LaTeX temp files
+*.nav
+*.snm
+*.vrb
+

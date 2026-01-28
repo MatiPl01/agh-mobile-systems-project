@@ -1,0 +1,505 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+  citecolor=blue
+}
+
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+
+\lstdefinestyle{code}{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  frame=single,
+  rulecolor=\color{black!20},
+  backgroundcolor=\color{black!2},
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{orange!60!black},
+  literate={ą}{{\k a}}1 {ć}{{\'c}}1 {ę}{{\k e}}1 {ł}{{\l}}1 {ń}{{\'n}}1 {ó}{{\'o}}1 {ś}{{\'s}}1 {ż}{{\.z}}1 {ź}{{\'z}}1 {Ą}{{\k A}}1 {Ć}{{\'C}}1 {Ę}{{\k E}}1 {Ł}{{\L}}1 {Ń}{{\'N}}1 {Ó}{{\'O}}1 {Ś}{{\'S}}1 {Ż}{{\.Z}}1 {Ź}{{\'Z}}1
+}
+
+\title{Dokumentacja projektu\\Kalkulator punktów Riichi Mahjong}
+\author{
+  Dariusz Piwowarski \and
+  Mateusz Łopaciński \and
+  Hieronim Koc
+}
+\date{Styczeń 2026}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\section{Wprowadzenie}
+
+Riichi Mahjong to japońska odmiana klasycznej gry Mahjong, w której gracze układają ręce z płytek (tiles) w celu osiągnięcia zwycięskich kombinacji. Podliczanie punktów po zakończeniu rozgrywki jest skomplikowane i wymaga znajomości wielu reguł, yaku (specjalnych kombinacji) oraz systemu punktacji opartego na Han i Fu.
+
+Niniejsza aplikacja mobilna automatyzuje proces obliczania punktów poprzez wykorzystanie aparatu telefonu do rozpoznawania układu płytek na stole i automatycznego obliczania wyniku.
+
+\section{Cel projektu}
+
+Głównym celem projektu jest stworzenie mobilnej aplikacji wspomagającej podliczanie punktów w grze Riichi Mahjong poprzez:
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Automatyzację procesu liczenia} --- eliminacja potrzeby ręcznego liczenia punktów,
+  \item \textbf{Wykorzystanie rozpoznawania obrazu} --- analiza układu klocków na stole za pomocą kamery,
+  \item \textbf{Dokładność obliczeń} --- zapewnienie poprawności wyników zgodnie z oficjalnymi regułami,
+  \item \textbf{Ułatwienie gry} --- szybsze i wygodniejsze podliczanie wyników partii.
+\end{itemize}
+
+\section{Technologie i działanie aplikacji}
+
+\subsection{Wykorzystane biblioteki}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{React Native} --- wieloplatformowy framework do budowy aplikacji mobilnych (Android, iOS),
+  \item \textbf{react-navigation} --- obsługa nawigacji pomiędzy ekranami (stack + dolne zakładki); definiuje przechodzenie między kalkulatorem, listą yaku i historią gier,
+  \item \textbf{react-native-vision-camera} --- dostęp do kamery i strumienia wideo; dostarcza surowe klatki do modułu rozpoznawania płytek,
+  \item \textbf{react-native-fast-tflite} --- integracja z modelem TensorFlow Lite; wykonuje inferencję YOLO na klatkach z kamery i zwraca detekcje płytek,
+  \item \textbf{@shopify/react-native-skia} --- renderowanie graficzne na żywo; służy do rysowania ramek wokół wykrytych płytek na podglądzie z kamery,
+  \item \textbf{riichi-ts} --- biblioteka odpowiedzialna za logikę liczenia punktów w Riichi Mahjong (wykrywanie yaku, liczenie Han/Fu, wynik końcowy),
+  \item \textbf{@react-native-async-storage/async-storage} --- lokalne przechowywanie danych; dzięki niej zapisywana jest historia rozegranych partii,
+  \item \textbf{fuse.js} --- wyszukiwanie z tolerancją błędów w liście yaku (np. filtrowanie po nazwie lub opisie),
+  \item \textbf{react-native-reanimated} --- biblioteka do tworzenia płynnych animacji i interakcji (korzysta z Worklets),
+  \item \textbf{react-native-unistyles} --- nowoczesny silnik stylów oparty na C++ zapewniający wysoką wydajność i obsługę motywów.
+\end{itemize}
+
+\subsection{Model uczenia maszynowego}
+
+Aplikacja wykorzystuje model TensorFlow Lite (\texttt{model.tflite}) wytrenowany w podejściu YOLO do rozpoznawania płytek Mahjong.
+
+\begin{itemize}[leftmargin=*]
+  \item wejściem modelu są klatki z kamery przeskalowane do kwadratu (np. 640x640),
+  \item wyjściem jest lista detekcji (klasa płytki, współrzędne, pewność),
+  \item po stronie aplikacji wykonywany jest post-processing (m.in. Non-Maximum Suppression) oraz mapowanie detekcji na strukturę ręki używaną przez moduł liczący punkty.
+\end{itemize}
+
+\section{Działanie aplikacji krok po kroku}
+
+Poniżej opisano typowy scenariusz użycia aplikacji od uruchomienia do zapisania wyniku.
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Ekran startowy / zakładka \emph{Calculate}} --- użytkownik widzi główny ekran kalkulatora z możliwością przejścia do skanera lub ręcznego budowania ręki.
+  \item \textbf{Skanowanie stołu} --- użytkownik przechodzi do ekranu skanera, kieruje kamerę na stół; aplikacja w czasie rzeczywistym próbuje wykryć komplet ręki zwycięzcy oraz istotne elementy (meldy, Dora, itp.).
+  \item \textbf{Potwierdzenie ręki} --- po udanym wykryciu użytkownik przechodzi do ekranu potwierdzenia, gdzie może poprawić rękę (np. zmienić pojedyncze płytki, ustawić wiatry, zaznaczyć Riichi).
+  \item \textbf{Obliczenie punktów} --- po potwierdzeniu ręki aplikacja wywołuje moduł \texttt{riichi-ts}, który zwraca wynik (Han, Fu, punktacja, lista yaku).
+  \item \textbf{Prezentacja wyniku} --- na ekranie wyniku użytkownik widzi czytelne podsumowanie: kto wygrał, jaką ręką, z jakich yaku składa się wynik oraz jak rozdzielono punkty między graczy.
+  \item \textbf{Zapis do historii} --- wynik może zostać zapisany do lokalnej historii; dane trafiają do pamięci przy użyciu AsyncStorage.
+  \item \textbf{Przeglądanie historii i yaku} --- z dolnych zakładek użytkownik może przejść do listy historii (przegląd poprzednich gier) lub do listy yaku (edukacyjny przegląd możliwych kombinacji wraz z filtrowaniem).
+\end{enumerate}
+
+\begin{figure}[h]
+  \centering
+  % \includegraphics[width=0.9\textwidth]{diagram-flow.png}
+  \caption{Przykładowy diagram działania aplikacji.}
+\end{figure}
+
+\section{Funkcjonalności}
+
+\subsection{Skanowanie i rozpoznawanie}
+
+\begin{itemize}[leftmargin=*,label=--]
+  \item \textbf{Skanowanie stołu kamerą} --- aplikacja wykorzystuje kamerę telefonu do analizy układu płytek,
+  \item \textbf{Rozpoznawanie elementów ręki}:
+  \begin{itemize}[leftmargin=*,label=\(\circ\)]
+    \item układ płytek w ręce zwycięzcy (closed part),
+    \item wyłożone meldy (pon, chi, kan) --- open part,
+    \item płytka wygrywająca (ron/tsumo),
+    \item wskaźniki Dora i Uradora,
+    \item wiatry (round wind, seat wind),
+    \item deklaracje Riichi,
+    \item specjalne zdarzenia (Ippatsu, Under the Sea, Blessing of Heaven).
+  \end{itemize}
+\end{itemize}
+
+\subsection{Kalkulacja punktów}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Automatyczne obliczanie} --- aplikacja oblicza punkty na podstawie rozpoznanej ręki,
+  \item \textbf{Szczegółowy opis wyniku} --- wyświetlanie wszystkich czynników wpływających na wynik:
+  \begin{itemize}[leftmargin=*]
+    \item lista yaku (kombinacji specjalnych),
+    \item liczba Han i Fu,
+    \item końcowa wartość punktowa,
+    \item informacja o tym, kto wygrał i od kogo punkty zostały pobrane.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Ręczna edycja}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Uzupełnianie danych} --- możliwość ręcznego uzupełnienia informacji, które nie zostały poprawnie rozpoznane,
+  \item \textbf{Korekta rozpoznania} --- edycja wykrytych płytek i meldów,
+  \item \textbf{Ustawienia dodatkowe} --- konfiguracja wiatrów, typu wygranej, deklaracji Riichi.
+\end{itemize}
+
+\subsection{Historia gier}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Zapisywanie wyników} --- automatyczne zapisywanie obliczonych wyników,
+  \item \textbf{Przeglądanie historii} --- lista wszystkich zapisanych gier,
+  \item \textbf{Szczegóły ręki} --- możliwość przejrzenia szczegółów każdej zapisanej ręki.
+\end{itemize}
+
+\subsection{Lista Yaku}
+
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Katalog yaku} --- kompletna lista wszystkich dostępnych yaku w Riichi Mahjong,
+  \item \textbf{Szczegóły yaku} --- opis każdego yaku, jego wartość w Han, warunki spełnienia,
+  \item \textbf{Filtrowanie} --- możliwość filtrowania yaku według różnych kryteriów (rzadkość, kategoria).
+\end{itemize}
+
+\subsection{Ekran kalibracji (planowane)}
+
+\begin{itemize}[leftmargin=*,label=--]
+  \item \textbf{Dopasowanie do zestawu klocków} --- możliwość kalibracji systemu rozpoznawania do konkretnego zestawu płytek,
+  \item \textbf{Uczenie wyglądu} --- aplikacja uczy się wyglądu poszczególnych płytek,
+  \item \textbf{Rozpoznawanie znaczników} --- kalibracja sticków Riichi i znaczników wiatrów.
+\end{itemize}
+
+\section{Opis ekranów i widoków}
+
+Ta sekcja służy do szczegółowego opisania kolejnych ekranów aplikacji oraz powiązanych z nimi funkcjonalności. Dla każdego ekranu przewidziano także miejsce na zrzut ekranu.
+
+\subsection{Ekran główny kalkulatora (\emph{Calculate Home})}
+
+\textbf{Opis:}
+\begin{itemize}[leftmargin=*]
+  \item pierwszy ekran widoczny po uruchomieniu aplikacji (w zakładce \emph{Calculate}),
+  \item prezentuje skrót dostępnych opcji: skanowanie ręki kamerą lub ręczne budowanie ręki,
+  \item może zawierać podsumowanie ostatnio policzonej ręki lub skróty do historii.
+\end{itemize}
+
+\textbf{Miejsce na zrzut ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{calculate-home.png}
+  \caption{Ekran główny kalkulatora (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekran skanera (\emph{Scanner Screen})}
+
+\textbf{Opis:}
+\begin{itemize}[leftmargin=*]
+  \item wyświetla podgląd z kamery z nałożonymi ramkami na wykryte płytki,
+  \item w tle działa model TensorFlow Lite wykonujący rozpoznawanie płytek i budujący wstępną reprezentację ręki,
+  \item po wykryciu kompletnej ręki pozwala przejść dalej do etapu potwierdzania.
+\end{itemize}
+
+\textbf{Miejsce na zrzut ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{scanner-screen.png}
+  \caption{Ekran skanera z kamerą (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekran potwierdzenia ręki (\emph{Confirm Screen})}
+
+\textbf{Opis:}
+\begin{itemize}[leftmargin=*]
+  \item prezentuje rękę wykrytą przez model: płytki na ręce, meldy, Dora itp.,
+  \item umożliwia ręczne poprawki (zmiana pojedynczych płytek, dodanie/usunięcie meldów),
+  \item pozwala ustawić opcje wpływające na punktację: wiatry stołu i gracza, typ wygranej (Ron/Tsumo), deklaracje Riichi, Ippatsu itp.
+\end{itemize}
+
+\textbf{Miejsce na zrzut ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{confirm-screen.png}
+  \caption{Ekran potwierdzenia wykrytej ręki (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekran kalkulatora / budowania ręki (\emph{Calculator Screen})}
+
+\textbf{Opis:}
+\begin{itemize}[leftmargin=*]
+  \item alternatywa dla skanowania --- ręczne budowanie ręki za pomocą selektora płytek,
+  \item użytkownik wybiera płytki do części zamkniętej i otwartej (meldy) oraz ustawia parametry rozdania,
+  \item po zbudowaniu poprawnej ręki może przejść do obliczenia punktów.
+\end{itemize}
+
+\textbf{Miejsce na zrzut ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{calculator-screen.png}
+  \caption{Ekran ręcznego budowania ręki (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekran wyniku (\emph{Result Screen})}
+
+\textbf{Opis:}
+\begin{itemize}[leftmargin=*]
+  \item wyświetla szczegółowy wynik obliczeń: Han, Fu, końcową liczbę punktów,
+  \item prezentuje listę wykrytych yaku wraz z liczbą Han przypisaną każdemu z nich,
+  \item pokazuje, jak punkty zostały rozdzielone pomiędzy graczy (kto od kogo płaci, różnica punktów),
+  \item umożliwia zapisanie wyniku do historii.
+\end{itemize}
+
+\textbf{Miejsce na zrzut ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{result-screen.png}
+  \caption{Ekran prezentujący wynik obliczeń (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekrany historii (\emph{History List \& Detail})}
+
+\textbf{Lista historii:}
+\begin{itemize}[leftmargin=*]
+  \item prezentuje listę zapisanych rozdań (np. z datą, liczbą punktów, skrótem yaku),
+  \item umożliwia szybkie wyszukiwanie / filtrowanie (np. po dacie lub wyniku),
+  \item po wybraniu pozycji otwierany jest ekran szczegółów.
+\end{itemize}
+
+\textbf{Szczegóły rozdania:}
+\begin{itemize}[leftmargin=*]
+  \item pokazują pełną rękę, listę yaku, parametry rozdania oraz dokładny rozkład punktów,
+  \item mogą zawierać dodatkowe dane kontekstowe (np. kto był dealerem, który to był stół/runda).
+\end{itemize}
+
+\textbf{Miejsce na zrzuty ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{history-list.png}
+  \caption{Lista zapisanych rozdań (do uzupełnienia).}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{history-detail.png}
+  \caption{Szczegóły pojedynczego rozdania (do uzupełnienia).}
+\end{figure}
+
+\subsection{Ekrany listy yaku (\emph{Yaku List \& Detail})}
+
+\textbf{Lista yaku:}
+\begin{itemize}[leftmargin=*,label=--]
+  \item zawiera wszystkie obsługiwane yaku wraz z krótkim opisem i liczbą Han,
+  \item umożliwia filtrowanie i wyszukiwanie (np. wg kategorii, liczby Han, popularności).
+\end{itemize}
+
+\textbf{Szczegóły yaku:}
+\begin{itemize}[leftmargin=*,label=--]
+  \item opisują dokładne warunki spełnienia danego yaku,
+  \item mogą zawierać przykładowe układy płytek ilustrujące dane yaku.
+\end{itemize}
+
+\textbf{Miejsce na zrzuty ekranu:}
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{yaku-list.png}
+  \caption{Lista yaku z możliwością filtrowania (do uzupełnienia).}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  % \includegraphics[width=0.7\textwidth]{yaku-detail.png}
+  \caption{Ekran szczegółów pojedynczego yaku (do uzupełnienia).}
+\end{figure}
+
+\section{Opis komponentów}
+
+\subsection{Scanner}
+
+Komponent odpowiedzialny za skanowanie i rozpoznawanie płytek. Wykorzystuje:
+\begin{itemize}[leftmargin=*,label=--]
+  \item \textbf{react-native-vision-camera} --- dostęp do kamery,
+  \item \textbf{TensorFlow Lite} --- model rozpoznawania,
+  \item \textbf{Skia} --- renderowanie detekcji na obrazie.
+\end{itemize}
+
+\textbf{Główne funkcje:}
+\begin{itemize}[leftmargin=*,label=--]
+  \item przetwarzanie klatek wideo w czasie rzeczywistym,
+  \item wykrywanie płytek na obrazie,
+  \item wizualizacja detekcji (prostokąty na wykrytych obiektach),
+  \item automatyczne wykrywanie kompletnej ręki.
+\end{itemize}
+
+\subsection{HandBuilder}
+
+Komponent do ręcznego budowania i edycji ręki. Pozwala na:
+\begin{itemize}[leftmargin=*,label=--]
+  \item dodawanie/usuwanie płytek,
+  \item tworzenie meldów (pon, chi, kan),
+  \item ustawianie opcji (wiatry, typ wygranej, Riichi),
+  \item weryfikację poprawności ręki.
+\end{itemize}
+
+\subsection{Calculator}
+
+Moduł obliczający punkty na podstawie ręki. Wykorzystuje bibliotekę \texttt{riichi-ts} do:
+\begin{itemize}[leftmargin=*,label=--]
+  \item walidacji ręki,
+  \item identyfikacji yaku,
+  \item obliczania Han i Fu,
+  \item obliczania końcowej wartości punktowej.
+\end{itemize}
+
+\section{Rozpoznawanie obrazu}
+
+\subsection{Model TensorFlow Lite}
+
+Aplikacja wykorzystuje model YOLO w formacie TensorFlow Lite do rozpoznawania płytek Mahjong.
+
+\textbf{Proces przetwarzania:}
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Przechwytywanie klatki} --- kamera przechwytuje obraz w rozdzielczości 1920x1080,
+  \item \textbf{Przygotowanie danych} --- obraz jest przeskalowywany do 640x640 i konwertowany do formatu float32,
+  \item \textbf{Inferencja} --- model przetwarza obraz i zwraca detekcje,
+  \item \textbf{Post-processing} --- zastosowanie Non-Maximum Suppression do eliminacji duplikatów,
+  \item \textbf{Interpretacja} --- konwersja detekcji na strukturę ręki (\texttt{Hand}).
+\end{enumerate}
+
+\subsection{Struktura detekcji}
+
+Każda detekcja zawiera:
+\begin{itemize}[leftmargin=*,label=--]
+  \item pozycję (x, y),
+  \item rozmiar (width, height),
+  \item klasę (typ płytki),
+  \item pewność (confidence score).
+\end{itemize}
+
+\subsection{Optymalizacja}
+
+\begin{itemize}[leftmargin=*,label=--]
+  \item \textbf{Worklets} --- przetwarzanie odbywa się w wątku natywnym, nie blokując UI,
+  \item \textbf{Core ML} --- na iOS wykorzystywana jest delegacja Core ML dla lepszej wydajności,
+  \item \textbf{Resize plugin} --- efektywne przeskalowywanie obrazów.
+\end{itemize}
+
+\section{Kalkulacja punktów}
+
+\subsection{Biblioteka riichi-ts}
+
+Aplikacja wykorzystuje bibliotekę \texttt{riichi-ts} do obliczania punktów. Biblioteka implementuje oficjalne reguły Riichi Mahjong.
+
+\textbf{Wejście:}
+\begin{itemize}[leftmargin=*]
+  \item zamknięta część ręki (closed part),
+  \item otwarte meldy (open part),
+  \item wiatry (round wind, seat wind),
+  \item płytka wygrywająca (tile taken),
+  \item opcje specjalne (Riichi, Ippatsu, Double Riichi, itd.).
+\end{itemize}
+
+\textbf{Wyjście:}
+\begin{itemize}[leftmargin=*]
+  \item liczba Han,
+  \item liczba Fu,
+  \item końcowa wartość punktowa (ten),
+  \item lista wykrytych yaku,
+  \item informacja o błędach (jeśli ręka jest niepoprawna).
+\end{itemize}
+
+\subsection{Przykładowy wynik}
+
+\begin{lstlisting}[style=code]
+{
+  error: false,
+  fu: 30,
+  han: 6,
+  isAgari: true,
+  ten: 12000,
+  yaku: {
+    chinitsu: 5,
+    tanyao: 1
+  },
+  yakuman: 0
+}
+\end{lstlisting}
+
+\section{Historia i przechowywanie danych}
+
+\subsection{AsyncStorage}
+
+Aplikacja wykorzystuje \texttt{@react-native-async-storage/async-storage} do lokalnego przechowywania danych.
+
+\textbf{Przechowywane dane:}
+\begin{itemize}[leftmargin=*]
+  \item historia obliczonych rąk,
+  \item szczegóły każdej ręki (płytki, meldy, opcje, wynik).
+\end{itemize}
+
+\subsection{Hook useHistory}
+
+Custom hook \texttt{useHistory} zarządza operacjami na historii:
+\begin{itemize}[leftmargin=*,label=--]
+  \item zapisywanie nowych wyników,
+  \item pobieranie listy zapisanych gier,
+  \item pobieranie szczegółów konkretnej gry,
+  \item usuwanie zapisanych gier.
+\end{itemize}
+
+\section{Testowanie}
+
+\subsection{Framework testowy}
+
+Projekt wykorzystuje \textbf{Jest} jako framework testowy.
+
+\subsection{Uruchomienie testów}
+
+\begin{lstlisting}[style=code]
+yarn test
+\end{lstlisting}
+
+\subsection{Sprawdzanie jakości kodu}
+
+\begin{lstlisting}[style=code]
+# Linting
+yarn lint
+
+# Sprawdzanie typów
+yarn typecheck
+
+# Sprawdzanie zależności cyklicznych
+yarn circular-dependency-check
+\end{lstlisting}
+
+\section{Podsumowanie}
+
+Aplikacja \textbf{Riichi Mahjong Calculator} to kompleksowe rozwiązanie do automatyzacji obliczania punktów w grze Riichi Mahjong. Wykorzystuje zaawansowane technologie rozpoznawania obrazu (TensorFlow Lite) oraz sprawdzoną bibliotekę do obliczania punktów (\texttt{riichi-ts}), zapewniając graczom szybkie i dokładne podliczanie wyników.
+
+\subsection{Główne osiągnięcia}
+
+\begin{itemize}[leftmargin=*]
+  \item Wieloplatformowa aplikacja mobilna (iOS, Android),
+  \item Real-time rozpoznawanie płytek z kamery,
+  \item Automatyczne obliczanie punktów zgodnie z oficjalnymi regułami,
+  \item Intuicyjny interfejs użytkownika,
+  \item Historia zapisanych gier,
+  \item Kompletna lista yaku z opisami.
+\end{itemize}
+
+\subsection{Możliwe rozszerzenia}
+
+\begin{itemize}[leftmargin=*]
+  \item Ekran kalibracji dla różnych zestawów płytek,
+  \item Eksport wyników do PDF,
+  \item Tryb offline z pełną funkcjonalnością,
+  \item Wsparcie dla różnych wariantów reguł,
+  \item Statystyki i analityka gier.
+\end{itemize}
+
+\end{document}
+
